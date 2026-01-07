@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 变量定义 */
+:root,
+:root[data-theme="dark"] {
+  /* 核心色彩 - 更柔和的深色调 */
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #252525;
+
+  --sidebar-bg: rgba(30, 30, 30, 0.95);
+  --header-bg: rgba(30, 30, 30, 0.8);
+
+  --card-bg: #1e1e1e;
+  --card-bg-hover: #2a2a2a;
+  --card-border: rgba(255, 255, 255, 0.05);
+  
+  --hero-gradient: linear-gradient(135deg, #1e1e1e 0%, #252525 100%);
+  
+  /* 文本颜色 - 提高对比度 */
+  --text-primary: #f5f5f5;
+  --text-secondary: #b0b0b0;
+  --text-tertiary: #757575;
+  
+  /* 强调色 - 更现代的粉红色 */
+  --accent-color: #ff5c8d;
+  --accent-hover: #ff7ca3;
+  --accent-glow: rgba(255, 92, 141, 0.4);
+
+  /* 阵营颜色 - 柔和色调 */
+  --good-color: #66bb6a;
+  --good-bg: rgba(102, 187, 106, 0.1);
+  --evil-color: #ef5350;
+  --evil-bg: rgba(239, 83, 80, 0.1);
+  --neutral-color: #ffa726;
+  --neutral-bg: rgba(255, 167, 38, 0.1);
+  
+  /* 界面元素 */
+  --border-color: rgba(255, 255, 255, 0.08);
+  --hover-bg: rgba(255, 255, 255, 0.06);
+  --btn-bg: rgba(255, 255, 255, 0.08);
+
+  /* 阴影与圆角 */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px rgba(255, 92, 141, 0.2);
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  /* 动画 */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* 玻璃拟态 */
+  --glass-bg: rgba(30, 30, 30, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --backdrop-blur: blur(16px);
+}
+
+:root[data-theme="light"] {
+  /* 核心色彩 - 柔和的浅色调 */
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f3f5;
+
+  --sidebar-bg: rgba(255, 255, 255, 0.95);
+  --header-bg: rgba(255, 255, 255, 0.8);
+
+  --card-bg: #ffffff;
+  --card-bg-hover: #f8f9fa;
+  --card-border: rgba(0, 0, 0, 0.04);
+  
+  --hero-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  
+  /* 文本颜色 */
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-tertiary: #868e96;
+  
+  /* 强调色 */
+  --accent-color: #ff5c8d;
+  --accent-hover: #ff7ca3;
+  --accent-glow: rgba(255, 92, 141, 0.2);
+
+  /* 阵营颜色 */
+  --good-color: #4caf50;
+  --good-bg: rgba(76, 175, 80, 0.1);
+  --evil-color: #f44336;
+  --evil-bg: rgba(244, 67, 54, 0.1);
+  --neutral-color: #ff9800;
+  --neutral-bg: rgba(255, 152, 0, 0.1);
+  
+  /* 界面元素 */
+  --border-color: rgba(0, 0, 0, 0.06);
+  --hover-bg: rgba(0, 0, 0, 0.03);
+  --btn-bg: rgba(0, 0, 0, 0.04);
+
+  /* 阴影与圆角 */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.08);
+  --shadow-glow: 0 0 20px rgba(255, 92, 141, 0.15);
+
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(0, 0, 0, 0.04);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+  transition: background var(--transition-normal), color var(--transition-normal);
+  overflow-x: hidden;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: var(--accent-color);
+  transition: var(--transition-fast);
+}
+
+a:hover {
+  color: var(--accent-hover);
+}
+
+button {
+  font-family: inherit;
+}
+
+/* 全局滚动条美化 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* 实用类 */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+}
+
+.card-hover {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-color);
+}
