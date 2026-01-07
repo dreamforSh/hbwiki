@@ -46,7 +46,7 @@ const beginnerTips = [
       <div class="hero-banner">
         <div class="hero-bg"></div>
         <div class="hero-content">
-          <div class="hero-badge">T版 Wiki</div>
+          <div class="hero-badge">、星琼铁道版 Wiki</div>
           <h1 class="hero-title">哈比列车</h1>
           <p class="hero-subtitle">在这趟神秘的列车上，每个人都有自己的秘密...</p>
           <div class="hero-actions">
@@ -186,7 +186,7 @@ const beginnerTips = [
       <footer class="wiki-footer">
         <div class="footer-content">
           <div class="footer-logo">🚂 哈比列车</div>
-          <p>哈比列车职业Wiki · 数据来源于游戏T版</p>
+          <p>哈比列车职业Wiki · 数据来源于哈比列车星琼铁道版</p>
           <p class="copyright">© 2023 Hobby Train Wiki. All rights reserved.</p>
         </div>
       </footer>

@@ -32,6 +32,7 @@
   --accent-color: #ff5c8d;
   --accent-hover: #ff7ca3;
   --accent-glow: rgba(255, 92, 141, 0.4);
+  --accent-shadow: rgba(255, 92, 141, 0.3);
 
   /* 阵营颜色 - 柔和色调 */
   --good-color: #66bb6a;
@@ -91,6 +92,7 @@
   --accent-color: #ff5c8d;
   --accent-hover: #ff7ca3;
   --accent-glow: rgba(255, 92, 141, 0.2);
+  --accent-shadow: rgba(255, 92, 141, 0.2);
 
   /* 阵营颜色 */
   --good-color: #4caf50;
