@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import WikiSidebar from './components/WikiSidebar.vue'
 import WikiContent from './components/WikiContent.vue'
+import ErrorPage from './components/ErrorPage.vue'
 
 const selectedNavId = ref('')
 const sidebarCollapsed = ref(false)
@@ -10,6 +11,7 @@ const isMobile = ref(false)
 
 const currentPage = ref('home')
 const selectedProfession = ref(null)
+const errorCode = ref(null)
 
 const handleSelect = (id) => {
   selectedNavId.value = id
@@ -20,19 +22,33 @@ const handleSelect = (id) => {
   // 根据选中的导航项切换页面
   if (id === 'gameplay') {
     currentPage.value = 'gameplay'
+    errorCode.value = null
   } else if (id === 'professions') {
     currentPage.value = 'professions'
+    errorCode.value = null
   } else if (id === 'map') {
     currentPage.value = 'map'
+    errorCode.value = null
   } else if (id === 'tips') {
     currentPage.value = 'tips'
+    errorCode.value = null
   } else if (id === 'home') {
     currentPage.value = 'home'
+    errorCode.value = null
+  } else if (id === '404' || id === '500' || id === '502' || id === '503' || id === '504') {
+    errorCode.value = parseInt(id)
+    currentPage.value = 'error'
   }
   // 如果不是选择职业详情，清空选中的职业
   if (id !== 'profession-detail') {
     selectedProfession.value = null
   }
+}
+
+const handleGoHome = () => {
+  currentPage.value = 'home'
+  errorCode.value = null
+  selectedNavId.value = ''
 }
 
 const handleSelectProfession = (profession) => {
@@ -94,6 +110,27 @@ onMounted(() => {
     sidebarCollapsed.value = true
   }
   
+  // 检查 URL 参数中的错误代码（用于测试错误页面）
+  const urlParams = new URLSearchParams(window.location.search)
+  const errorCodeParam = urlParams.get('error')
+  if (errorCodeParam && ['404', '500', '502', '503', '504'].includes(errorCodeParam)) {
+    handleSelect(errorCodeParam)
+  }
+  
+  // 监听自定义事件（用于程序化触发错误页面）
+  const handleErrorEvent = (event) => {
+    const code = event.detail?.code
+    if (code && ['404', '500', '502', '503', '504'].includes(String(code))) {
+      handleSelect(String(code))
+    }
+  }
+  window.addEventListener('show-error', handleErrorEvent)
+  
+  // 在组件卸载时清理事件监听器
+  onUnmounted(() => {
+    window.removeEventListener('show-error', handleErrorEvent)
+  })
+  
   // 添加滚动动画观察器
   const observerOptions = {
     threshold: 0.1,
@@ -140,7 +177,15 @@ onUnmounted(() => {
       @toggle-sidebar="toggleSidebar"
       @toggle-theme="toggleTheme"
     />
+    <ErrorPage 
+      v-if="currentPage === 'error' && errorCode"
+      :error-code="errorCode"
+      :sidebar-collapsed="sidebarCollapsed"
+      @go-home="handleGoHome"
+      @toggle-sidebar="toggleSidebar"
+    />
     <WikiContent 
+      v-else
       :current-page="currentPage"
       :profession="selectedProfession"
       :sidebar-collapsed="sidebarCollapsed"
