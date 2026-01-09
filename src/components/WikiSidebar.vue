@@ -99,12 +99,18 @@ const selectLink = (id) => {
   z-index: 100;
   display: flex;
   flex-direction: column;
-  transition: width var(--transition-normal), transform var(--transition-normal);
+  transition: width var(--transition-normal), 
+              transform var(--transition-normal), 
+              box-shadow var(--transition-normal),
+              background var(--transition-theme),
+              border-color var(--transition-theme);
   border-right: 1px solid var(--border-color);
   background: var(--sidebar-bg);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   box-shadow: var(--shadow-lg);
   border-radius: 0 24px 24px 0;
+  animation: slideInLeft 0.5s ease-out;
 }
 
 .wiki-sidebar.collapsed {
@@ -139,10 +145,42 @@ const selectLink = (id) => {
   justify-content: center;
   box-shadow: 0 4px 12px var(--accent-shadow);
   flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-icon-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: rotate(45deg);
+  transition: left 0.6s;
+}
+
+.logo-icon-wrapper:hover::before {
+  left: 100%;
+}
+
+.logo-icon-wrapper:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 6px 20px var(--accent-shadow);
 }
 
 .logo-icon {
   font-size: 1.5rem;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-icon-wrapper:hover .logo-icon {
+  transform: scale(1.2) rotate(-10deg);
 }
 
 .logo-text-wrapper {
@@ -201,20 +239,43 @@ const selectLink = (id) => {
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.action-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s;
+}
+
+.action-btn:hover::before {
+  width: 40px;
+  height: 40px;
 }
 
 .action-btn:hover {
   background: var(--hover-bg);
   color: var(--text-primary);
+  transform: scale(1.1) rotate(5deg);
 }
 
 .theme-btn:hover {
   color: #fbbf24;
+  transform: scale(1.15) rotate(180deg);
 }
 
 .collapse-btn:hover {
   color: var(--accent-color);
+  transform: scale(1.15);
 }
 
 /* 导航列表 */
@@ -277,9 +338,10 @@ const selectLink = (id) => {
   position: relative;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   color: var(--text-secondary);
   overflow: hidden;
+  transform-origin: left center;
 }
 
 .item-content {
@@ -294,12 +356,15 @@ const selectLink = (id) => {
 .nav-item:hover {
   background: var(--hover-bg);
   color: var(--text-primary);
+  transform: translateX(4px) scale(1.02);
 }
 
 .nav-item.active {
   background: var(--accent-glow);
   color: var(--accent-color);
   font-weight: 500;
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(255, 92, 141, 0.2);
 }
 
 .nav-item.active .item-content {
@@ -310,12 +375,19 @@ const selectLink = (id) => {
   font-size: 1.4rem;
   min-width: 28px;
   text-align: center;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s;
   flex-shrink: 0;
+  display: inline-block;
 }
 
 .nav-item:hover .nav-icon {
-  transform: scale(1.15) rotate(5deg);
+  transform: scale(1.2) rotate(10deg);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.nav-item.active .nav-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px currentColor);
 }
 
 .nav-text {
@@ -348,12 +420,17 @@ const selectLink = (id) => {
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) scaleY(0);
   width: 3px;
-  height: 16px;
-  background: var(--accent-color);
+  height: 24px;
+  background: linear-gradient(180deg, var(--accent-color), var(--accent-hover));
   border-radius: 0 4px 4px 0;
-  box-shadow: 0 0 8px var(--accent-color);
+  box-shadow: 0 0 12px var(--accent-color);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.nav-item.active .active-indicator {
+  transform: translateY(-50%) scaleY(1);
 }
 
 /* 折叠状态下的列表项 */

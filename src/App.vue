@@ -8,14 +8,36 @@ const sidebarCollapsed = ref(false)
 const isDarkMode = ref(true)
 const isMobile = ref(false)
 
+const currentPage = ref('home')
+const selectedProfession = ref(null)
+
 const handleSelect = (id) => {
   selectedNavId.value = id
   // 移动端选择后自动关闭侧边栏
   if (isMobile.value) {
     sidebarCollapsed.value = true
   }
-  // TODO: 根据选中的导航项显示不同内容
-  console.log('选中导航项:', id)
+  // 根据选中的导航项切换页面
+  if (id === 'gameplay') {
+    currentPage.value = 'gameplay'
+  } else if (id === 'professions') {
+    currentPage.value = 'professions'
+  } else if (id === 'map') {
+    currentPage.value = 'map'
+  } else if (id === 'tips') {
+    currentPage.value = 'tips'
+  } else if (id === 'home') {
+    currentPage.value = 'home'
+  }
+  // 如果不是选择职业详情，清空选中的职业
+  if (id !== 'profession-detail') {
+    selectedProfession.value = null
+  }
+}
+
+const handleSelectProfession = (profession) => {
+  selectedProfession.value = profession
+  currentPage.value = 'profession-detail'
 }
 
 const toggleSidebar = () => {
@@ -23,9 +45,20 @@ const toggleSidebar = () => {
 }
 
 const toggleTheme = () => {
-  isDarkMode.value = !isDarkMode.value
-  document.documentElement.setAttribute('data-theme', isDarkMode.value ? 'dark' : 'light')
-  localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light')
+  // 添加平滑过渡类
+  document.documentElement.classList.add('theme-transitioning')
+  
+  // 延迟切换主题，确保过渡效果可见
+  setTimeout(() => {
+    isDarkMode.value = !isDarkMode.value
+    document.documentElement.setAttribute('data-theme', isDarkMode.value ? 'dark' : 'light')
+    localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light')
+    
+    // 移除过渡类
+    setTimeout(() => {
+      document.documentElement.classList.remove('theme-transitioning')
+    }, 600)
+  }, 50)
 }
 
 const closeSidebarOnMobile = () => {
@@ -60,6 +93,29 @@ onMounted(() => {
   if (isMobile.value) {
     sidebarCollapsed.value = true
   }
+  
+  // 添加滚动动画观察器
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  }
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate-fade-in-up')
+        observer.unobserve(entry.target)
+      }
+    })
+  }, observerOptions)
+  
+  // 观察所有需要动画的元素
+  setTimeout(() => {
+    const animatedElements = document.querySelectorAll('.content-section, .stat-card, .faction-card, .nav-item, .tip-item')
+    animatedElements.forEach(el => {
+      observer.observe(el)
+    })
+  }, 100)
 })
 
 onUnmounted(() => {
@@ -85,9 +141,12 @@ onUnmounted(() => {
       @toggle-theme="toggleTheme"
     />
     <WikiContent 
-      :profession="null" 
+      :current-page="currentPage"
+      :profession="selectedProfession"
       :sidebar-collapsed="sidebarCollapsed"
       @toggle-sidebar="toggleSidebar"
+      @select-profession="handleSelectProfession"
+      @navigate="handleSelect"
     />
   </div>
 </template>

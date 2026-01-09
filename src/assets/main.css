@@ -10,18 +10,40 @@
 :root,
 :root[data-theme="dark"] {
   /* 核心色彩 - 更柔和的深色调 */
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
-  --bg-tertiary: #252525;
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-tertiary: #1a1a24;
 
-  --sidebar-bg: rgba(30, 30, 30, 0.95);
-  --header-bg: rgba(30, 30, 30, 0.8);
+  --sidebar-bg: rgba(18, 18, 26, 0.95);
+  --header-bg: rgba(18, 18, 26, 0.8);
 
-  --card-bg: #1e1e1e;
-  --card-bg-hover: #2a2a2a;
+  --card-bg: #1a1a24;
+  --card-bg-hover: #242430;
   --card-border: rgba(255, 255, 255, 0.05);
   
-  --hero-gradient: linear-gradient(135deg, #1e1e1e 0%, #252525 100%);
+  --hero-gradient: linear-gradient(135deg, #1a1a24 0%, #242430 100%);
+  
+  /* 背景渐变和图案 */
+  --bg-gradient: radial-gradient(ellipse at top, rgba(255, 92, 141, 0.15) 0%, transparent 50%),
+                  radial-gradient(ellipse at bottom right, rgba(66, 165, 245, 0.12) 0%, transparent 50%),
+                  radial-gradient(ellipse at bottom left, rgba(102, 187, 106, 0.1) 0%, transparent 50%),
+                  linear-gradient(180deg, #0a0a0f 0%, #12121a 50%, #0a0a0f 100%);
+  --bg-pattern: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.02) 2px,
+      rgba(255, 255, 255, 0.02) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.02) 2px,
+      rgba(255, 255, 255, 0.02) 4px
+    );
+  --bg-pattern-opacity: 1;
   
   /* 文本颜色 - 提高对比度 */
   --text-primary: #f5f5f5;
@@ -61,6 +83,7 @@
   --transition-fast: 0.2s ease;
   --transition-normal: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-theme: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* 玻璃拟态 */
   --glass-bg: rgba(30, 30, 30, 0.7);
@@ -70,9 +93,9 @@
 
 :root[data-theme="light"] {
   /* 核心色彩 - 柔和的浅色调 */
-  --bg-primary: #f8f9fa;
+  --bg-primary: #f5f7fa;
   --bg-secondary: #ffffff;
-  --bg-tertiary: #f1f3f5;
+  --bg-tertiary: #f0f2f5;
 
   --sidebar-bg: rgba(255, 255, 255, 0.95);
   --header-bg: rgba(255, 255, 255, 0.8);
@@ -81,7 +104,29 @@
   --card-bg-hover: #f8f9fa;
   --card-border: rgba(0, 0, 0, 0.04);
   
-  --hero-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  --hero-gradient: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+  
+  /* 背景渐变和图案 */
+  --bg-gradient: radial-gradient(ellipse at top, rgba(255, 92, 141, 0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at bottom right, rgba(66, 165, 245, 0.06) 0%, transparent 50%),
+                  radial-gradient(ellipse at bottom left, rgba(102, 187, 106, 0.05) 0%, transparent 50%),
+                  linear-gradient(180deg, #f5f7fa 0%, #ffffff 50%, #f5f7fa 100%);
+  --bg-pattern: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.01) 2px,
+      rgba(0, 0, 0, 0.01) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.01) 2px,
+      rgba(0, 0, 0, 0.01) 4px
+    );
+  --bg-pattern-opacity: 0.6;
   
   /* 文本颜色 */
   --text-primary: #212529;
@@ -123,13 +168,53 @@ body {
   color: var(--text-primary);
   min-height: 100vh;
   line-height: 1.6;
-  transition: background var(--transition-normal), color var(--transition-normal);
+  transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-pattern);
+  opacity: var(--bg-pattern-opacity);
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-gradient);
+  background-size: 200% 200%;
+  z-index: -1;
+  pointer-events: none;
+  transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              background-size 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: gradientShift 20s ease infinite;
+}
+
+/* 主题切换时的特殊效果 */
+html.theme-transitioning body::after {
+  animation: none;
+  filter: brightness(1.1);
 }
 
 #app {
   width: 100%;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 a {
@@ -171,14 +256,200 @@ button {
   backdrop-filter: var(--backdrop-blur);
   -webkit-backdrop-filter: var(--backdrop-blur);
   border: 1px solid var(--glass-border);
+  transition: background var(--transition-theme),
+              border-color var(--transition-theme),
+              color var(--transition-theme),
+              box-shadow var(--transition-normal);
 }
 
 .card-hover {
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal), background var(--transition-normal);
+  cursor: pointer;
 }
 
 .card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
   border-color: var(--accent-color);
+}
+
+/* 动画关键帧 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 0%, 100% 100%, 0% 100%, center;
+  }
+  33% {
+    background-position: 50% 0%, 100% 50%, 0% 50%, center;
+  }
+  66% {
+    background-position: 100% 0%, 50% 100%, 50% 0%, center;
+  }
+}
+
+@keyframes backgroundPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+/* 动画工具类 */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s ease-out forwards;
+}
+
+/* 延迟动画 */
+.animate-delay-100 {
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.animate-delay-200 {
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.animate-delay-300 {
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.animate-delay-400 {
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+/* 全局主题切换过渡 */
+*,
+*::before,
+*::after {
+  transition: background-color var(--transition-theme),
+              border-color var(--transition-theme),
+              color var(--transition-theme),
+              box-shadow var(--transition-theme);
+}
+
+/* 减少动画（无障碍） */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  body::after {
+    animation: none !important;
+  }
 }
