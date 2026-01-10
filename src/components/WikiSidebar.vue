@@ -32,7 +32,8 @@ const quickLinks = [
   { id: 'professions', icon: 'users', title: '职业介绍', desc: '查看所有职业详情', color: '#42a5f5' },
   { id: 'map', icon: 'map', title: '地图指南', desc: '熟悉列车车厢布局', color: '#ec407a' },
   { id: 'tips', icon: 'lightbulb', title: '进阶技巧', desc: '学习高级实战技巧', color: '#ffa726' },
-  { id: 'changelog', icon: 'book', title: '更新日志', desc: '查看游戏版本更新记录', color: '#9c27b0' }
+  { id: 'changelog', icon: 'book', title: '更新日志', desc: '查看游戏版本更新记录', color: '#9c27b0' },
+  { id: 'analytics', icon: 'chart', title: 'Web Analytics', desc: 'Vercel Web Analytics 指南', color: '#00d4ff' }
 ]
 
 const selectLink = (id) => {
