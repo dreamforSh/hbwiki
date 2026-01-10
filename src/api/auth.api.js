@@ -157,3 +157,30 @@ export async function resetPassword(resetData) {
     }
   }
 }
+
+/**
+ * 注销账号
+ * @param {string} email - 邮箱地址
+ * @param {string} password - 用户密码
+ * @returns {Promise} API响应
+ */
+export async function deleteAccount(email, password) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/delete-account`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    })
+
+    const data = await response.json()
+    return data
+  } catch (error) {
+    console.error('注销账号失败:', error)
+    return {
+      success: false,
+      message: '网络错误，请稍后重试'
+    }
+  }
+}

@@ -4,6 +4,7 @@ import WikiSidebar from './components/WikiSidebar.vue'
 import WikiContent from './components/WikiContent.vue'
 import ErrorPage from './components/ErrorPage.vue'
 import LoginPage from './components/LoginPage.vue'
+import ForgotPasswordPage from './components/ForgotPasswordPage.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
 import VercelAnalyticsPage from './components/VercelAnalyticsPage.vue'
 import { useAuth } from './composables/useAuth'
@@ -235,6 +236,11 @@ onUnmounted(() => {
       @toggle-sidebar="toggleSidebar"
       @go-register="() => handleSelect('register')"
       @go-forgot-password="() => handleSelect('forgot-password')"
+    />
+    <ForgotPasswordPage
+      v-else-if="currentPage === 'forgot-password'"
+      @reset-success="() => handleSelect('login')"
+      @go-login="() => handleSelect('login')"
     />
     <UserProfilePage
       v-else-if="currentPage === 'profile' && isAuthenticated"

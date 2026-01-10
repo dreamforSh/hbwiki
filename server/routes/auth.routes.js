@@ -292,4 +292,57 @@ router.post('/reset-password', async (req, res) => {
   }
 })
 
+/**
+ * POST /api/auth/delete-account
+ * 注销账号
+ */
+router.post('/delete-account', async (req, res) => {
+  try {
+    const { email, password } = req.body
+
+    // 验证参数
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: '邮箱和密码不能为空'
+      })
+    }
+
+    // 验证邮箱格式
+    const emailValidation = validateEmailForRegistration(email)
+    if (!emailValidation.valid) {
+      return res.status(400).json({
+        success: false,
+        message: emailValidation.message
+      })
+    }
+
+    // 验证密码长度
+    if (password.length < 6 || password.length > 32) {
+      return res.status(400).json({
+        success: false,
+        message: '密码格式不正确'
+      })
+    }
+
+    // TODO: 这里应该：
+    // 1. 验证用户的密码是否正确
+    // 2. 从数据库删除用户的所有数据
+    // 3. 清除用户的 session/token
+    console.log('账号注销:', { email: emailValidation.email })
+
+    return res.status(200).json({
+      success: true,
+      message: '账号注销成功'
+    })
+
+  } catch (error) {
+    console.error('注销账号接口错误:', error)
+    return res.status(500).json({
+      success: false,
+      message: '服务器错误，请稍后重试'
+    })
+  }
+})
+
 module.exports = router

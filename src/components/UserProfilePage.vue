@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useAuth } from '../composables/useAuth'
+import { deleteAccount } from '../api/auth.api'
 
 const props = defineProps({
   sidebarCollapsed: {
@@ -54,6 +55,57 @@ const saveProfile = async () => {
     console.error('更新失败:', error)
   } finally {
     loading.value = false
+  }
+}
+
+// 账号注销相关
+const showDeleteModal = ref(false)
+const deleteForm = ref({
+  password: '',
+  confirmText: ''
+})
+const deleteLoading = ref(false)
+const deleteError = ref('')
+
+const canDeleteAccount = computed(() => {
+  return deleteForm.value.password.length >= 6 && 
+         deleteForm.value.confirmText === '删除我的账号'
+})
+
+const openDeleteModal = () => {
+  showDeleteModal.value = true
+  deleteForm.value = { password: '', confirmText: '' }
+  deleteError.value = ''
+}
+
+const closeDeleteModal = () => {
+  showDeleteModal.value = false
+  deleteForm.value = { password: '', confirmText: '' }
+  deleteError.value = ''
+}
+
+const handleDeleteAccount = async () => {
+  if (!canDeleteAccount.value) return
+
+  deleteLoading.value = true
+  deleteError.value = ''
+
+  try {
+    const result = await deleteAccount(user.value.email, deleteForm.value.password)
+    
+    if (result.success) {
+      // 成功后退出登录
+      closeDeleteModal()
+      alert('账号已成功注销')
+      logout()
+      emit('go-login')
+    } else {
+      deleteError.value = result.message || '注销失败，请检查密码是否正确'
+    }
+  } catch (error) {
+    deleteError.value = '注销失败，请稍后重试'
+  } finally {
+    deleteLoading.value = false
   }
 }
 
@@ -188,7 +240,98 @@ const handleLogout = () => {
           </button>
         </div>
       </div>
+
+      <!-- 危险操作区 -->
+      <div class="danger-zone glass-panel animate-fade-in-up animate-delay-500">
+        <h3 class="section-title danger-title">
+          <span class="danger-icon">⚠️</span>
+          危险操作
+        </h3>
+        <div class="danger-content">
+          <div class="danger-description">
+            <p class="danger-text">注销账号后，您的所有数据将被永久删除且无法恢复。</p>
+          </div>
+          <button class="danger-btn" @click="openDeleteModal">
+            <span class="btn-icon">🗑️</span>
+            <span>注销账号</span>
+          </button>
+        </div>
+      </div>
     </div>
+
+    <!-- 账号注销确认对话框 -->
+    <Teleport to="body">
+      <Transition name="modal-fade">
+        <div v-if="showDeleteModal" class="modal-overlay" @click.self="closeDeleteModal">
+          <div class="modal-container danger-modal">
+            <div class="modal-header">
+              <div class="modal-icon danger">
+                <span>⚠️</span>
+              </div>
+              <h2 class="modal-title">确认注销账号</h2>
+              <button class="modal-close" @click="closeDeleteModal">✕</button>
+            </div>
+
+            <div class="modal-body">
+              <div class="warning-box">
+                <h4 class="warning-title">⚠️ 此操作无法撤销</h4>
+                <ul class="warning-list">
+                  <li>您的所有个人资料将被永久删除</li>
+                  <li>所有收藏和评论将被清除</li>
+                  <li>账号注销后无法恢复</li>
+                </ul>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">请输入您的密码以确认</label>
+                <input
+                  v-model="deleteForm.password"
+                  type="password"
+                  class="form-input"
+                  placeholder="请输入登录密码"
+                  @keyup.enter="canDeleteAccount && handleDeleteAccount()"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">请输入"删除我的账号"以确认</label>
+                <input
+                  v-model="deleteForm.confirmText"
+                  type="text"
+                  class="form-input"
+                  placeholder="删除我的账号"
+                  @keyup.enter="canDeleteAccount && handleDeleteAccount()"
+                />
+              </div>
+
+              <div v-if="deleteError" class="error-message">
+                <span class="error-icon">⚠️</span>
+                <span>{{ deleteError }}</span>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button 
+                class="btn-secondary"
+                @click="closeDeleteModal"
+                :disabled="deleteLoading"
+              >
+                取消
+              </button>
+              <button
+                class="btn-danger"
+                :class="{ disabled: !canDeleteAccount }"
+                :disabled="!canDeleteAccount || deleteLoading"
+                @click="handleDeleteAccount"
+              >
+                <span v-if="deleteLoading">注销中...</span>
+                <span v-else>确认注销账号</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </main>
 </template>
 
@@ -500,6 +643,264 @@ const handleLogout = () => {
   color: var(--accent-color);
 }
 
+/* 危险操作区 */
+.danger-zone {
+  padding: 24px;
+  border-radius: 20px;
+  border: 2px solid rgba(239, 83, 80, 0.3);
+}
+
+.danger-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--evil-color);
+}
+
+.danger-icon {
+  font-size: 1.3rem;
+}
+
+.danger-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.danger-description {
+  flex: 1;
+}
+
+.danger-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.danger-btn {
+  padding: 12px 24px;
+  background: rgba(239, 83, 80, 0.1);
+  border: 2px solid var(--evil-color);
+  border-radius: 12px;
+  color: var(--evil-color);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.danger-btn:hover {
+  background: var(--evil-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 83, 80, 0.3);
+}
+
+/* 对话框 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.modal-container {
+  background: var(--bg-secondary);
+  border-radius: 24px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.danger-modal {
+  border: 2px solid var(--evil-color);
+}
+
+.modal-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  text-align: center;
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.modal-icon.danger {
+  background: rgba(239, 83, 80, 0.1);
+  border: 2px solid var(--evil-color);
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background: var(--evil-color);
+  color: white;
+}
+
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.warning-box {
+  padding: 16px;
+  background: rgba(239, 83, 80, 0.05);
+  border: 1px solid var(--evil-color);
+  border-radius: 12px;
+}
+
+.warning-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--evil-color);
+  margin-bottom: 12px;
+}
+
+.warning-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.warning-list li {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding-left: 20px;
+  position: relative;
+}
+
+.warning-list li::before {
+  content: '•';
+  position: absolute;
+  left: 8px;
+  color: var(--evil-color);
+  font-weight: bold;
+}
+
+.error-message {
+  padding: 12px 16px;
+  background: rgba(239, 83, 80, 0.1);
+  border: 1px solid var(--evil-color);
+  border-radius: 10px;
+  color: var(--evil-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-icon {
+  font-size: 1.1rem;
+}
+
+.modal-footer {
+  padding: 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-danger {
+  padding: 12px 24px;
+  background: var(--evil-color);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-danger:hover:not(.disabled):not(:disabled) {
+  background: #d32f2f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 83, 80, 0.4);
+}
+
+.btn-danger.disabled,
+.btn-danger:disabled {
+  background: var(--border-color);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 对话框动画 */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s;
+}
+
+.modal-fade-enter-active .modal-container,
+.modal-fade-leave-active .modal-container {
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+.modal-fade-enter-from .modal-container,
+.modal-fade-leave-to .modal-container {
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+}
+
 /* 响应式 */
 @media (max-width: 768px) {
   .profile-page {
@@ -538,6 +939,24 @@ const handleLogout = () => {
   .btn-secondary {
     width: 100%;
     justify-content: center;
+  }
+
+  .danger-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .danger-btn {
+    justify-content: center;
+  }
+
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .btn-danger,
+  .btn-secondary {
+    width: 100%;
   }
 }
 </style>
