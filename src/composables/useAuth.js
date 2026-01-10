@@ -49,28 +49,40 @@ const initAuth = () => {
   }
 }
 
-// 登录
-const login = (username, password) => {
+// 登录 - 支持用户名或邮箱登录
+const login = (usernameOrEmail, password) => {
   return new Promise((resolve, reject) => {
     // 速率限制检查
-    const rateLimitResult = loginRateLimiter.check(username)
+    const rateLimitResult = loginRateLimiter.check(usernameOrEmail)
     if (!rateLimitResult.allowed) {
-      logSecurityEvent('LOGIN_RATE_LIMIT', { username })
+      logSecurityEvent('LOGIN_RATE_LIMIT', { identifier: usernameOrEmail })
       reject({ success: false, message: rateLimitResult.message })
       return
     }
     
+    // 检测输入类型：邮箱或用户名
+    const isEmail = usernameOrEmail.includes('@')
+    
     // 输入验证
-    const usernameValidation = validateUsername(username)
-    if (!usernameValidation.valid) {
-      logSecurityEvent('LOGIN_INVALID_USERNAME', { username, errors: usernameValidation.errors })
-      reject({ success: false, message: usernameValidation.errors[0] })
-      return
+    if (isEmail) {
+      const emailValidation = validateEmail(usernameOrEmail)
+      if (!emailValidation.valid) {
+        logSecurityEvent('LOGIN_INVALID_EMAIL', { email: usernameOrEmail, errors: emailValidation.errors })
+        reject({ success: false, message: '请输入有效的邮箱地址' })
+        return
+      }
+    } else {
+      const usernameValidation = validateUsername(usernameOrEmail)
+      if (!usernameValidation.valid) {
+        logSecurityEvent('LOGIN_INVALID_USERNAME', { username: usernameOrEmail, errors: usernameValidation.errors })
+        reject({ success: false, message: '请输入有效的用户名' })
+        return
+      }
     }
     
     // 检测 SQL 注入
-    if (detectSqlInjection(username) || detectSqlInjection(password)) {
-      logSecurityEvent('LOGIN_SQL_INJECTION_ATTEMPT', { username })
+    if (detectSqlInjection(usernameOrEmail) || detectSqlInjection(password)) {
+      logSecurityEvent('LOGIN_SQL_INJECTION_ATTEMPT', { identifier: usernameOrEmail })
       reject({ success: false, message: '检测到非法输入，登录失败' })
       return
     }
@@ -81,17 +93,21 @@ const login = (username, password) => {
         // 安全地解析 localStorage 数据
         const usersData = localStorage.getItem('wiki_users')
         if (!usersData) {
-          reject({ success: false, message: '用户名或密码错误' })
+          reject({ success: false, message: '用户名/邮箱或密码错误' })
           return
         }
         
         const users = JSON.parse(usersData)
-        const cleanUsername = sanitizeInput(username)
-        const foundUser = users.find(u => u.username === cleanUsername && u.password === password)
+        const cleanIdentifier = sanitizeInput(usernameOrEmail)
+        
+        // 根据输入类型查找用户
+        const foundUser = isEmail 
+          ? users.find(u => u.email === cleanIdentifier && u.password === password)
+          : users.find(u => u.username === cleanIdentifier && u.password === password)
         
         if (foundUser) {
           // 登录成功，重置速率限制
-          loginRateLimiter.reset(username)
+          loginRateLimiter.reset(usernameOrEmail)
           
           const userData = {
             id: foundUser.id,
@@ -106,14 +122,17 @@ const login = (username, password) => {
           user.value = userData
           localStorage.setItem('wiki_user', JSON.stringify(userData))
           
-          logSecurityEvent('LOGIN_SUCCESS', { username: userData.username })
+          logSecurityEvent('LOGIN_SUCCESS', { 
+            username: userData.username, 
+            loginMethod: isEmail ? 'email' : 'username' 
+          })
           resolve({ success: true, user: userData })
         } else {
-          logSecurityEvent('LOGIN_FAILED', { username })
-          reject({ success: false, message: '用户名或密码错误' })
+          logSecurityEvent('LOGIN_FAILED', { identifier: cleanIdentifier })
+          reject({ success: false, message: '用户名/邮箱或密码错误' })
         }
       } catch (error) {
-        logSecurityEvent('LOGIN_ERROR', { username, error: error.message })
+        logSecurityEvent('LOGIN_ERROR', { identifier: usernameOrEmail, error: error.message })
         reject({ success: false, message: '登录失败，请重试' })
       }
     }, 500)

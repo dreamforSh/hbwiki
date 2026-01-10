@@ -92,15 +92,35 @@ const handleSubmit = async () => {
     return
   }
   
-  // 用户名验证
-  const usernameValidation = validateUsername(username.value)
-  if (!usernameValidation.valid) {
-    error.value = usernameValidation.errors[0]
-    return
-  }
-  
-  if (!isLogin.value) {
-    // 注册模式额外验证
+  if (isLogin.value) {
+    // 登录模式：支持用户名或邮箱
+    // 检测是否为邮箱
+    const isEmail = username.value.includes('@')
+    
+    if (isEmail) {
+      // 邮箱验证
+      const emailValidation = validateEmail(username.value)
+      if (!emailValidation.valid) {
+        error.value = '请输入有效的邮箱地址'
+        return
+      }
+    } else {
+      // 用户名验证
+      const usernameValidation = validateUsername(username.value)
+      if (!usernameValidation.valid) {
+        error.value = '请输入有效的用户名'
+        return
+      }
+    }
+  } else {
+    // 注册模式：需要所有字段
+    // 用户名验证
+    const usernameValidation = validateUsername(username.value)
+    if (!usernameValidation.valid) {
+      error.value = usernameValidation.errors[0]
+      return
+    }
+    
     if (!email.value) {
       error.value = '请填写邮箱'
       return
@@ -201,15 +221,17 @@ const togglePasswordVisibility = () => {
           </div>
           <h1 class="login-title">{{ isLogin ? '欢迎回来' : '加入我们' }}</h1>
           <p class="login-subtitle">
-            {{ isLogin ? '登录以获取更多功能' : '创建账号开始探索' }}
+            {{ isLogin ? '使用用户名或邮箱登录' : '创建账号开始探索' }}
           </p>
         </div>
 
         <!-- 表单 -->
         <form class="login-form" @submit.prevent="handleSubmit" novalidate>
-          <!-- 用户名 -->
+          <!-- 用户名/邮箱 -->
           <div class="form-group">
-            <label for="username" class="form-label">用户名</label>
+            <label for="username" class="form-label">
+              {{ isLogin ? '用户名/邮箱' : '用户名' }}
+            </label>
             <div class="input-wrapper">
               <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -220,9 +242,9 @@ const togglePasswordVisibility = () => {
                 v-model="username"
                 type="text" 
                 class="form-input"
-                placeholder="请输入用户名"
+                :placeholder="isLogin ? '请输入用户名或邮箱' : '请输入用户名'"
                 :disabled="loading"
-                autocomplete="username"
+                :autocomplete="isLogin ? 'username email' : 'username'"
                 required
                 aria-required="true"
               />
