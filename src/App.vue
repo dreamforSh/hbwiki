@@ -48,6 +48,12 @@ const handleSelect = (id, param = null) => {
   } else if (id === 'login') {
     currentPage.value = 'login'
     errorCode.value = null
+  } else if (id === 'register') {
+    currentPage.value = 'register'
+    errorCode.value = null
+  } else if (id === 'forgot-password') {
+    currentPage.value = 'forgot-password'
+    errorCode.value = null
   } else if (id === 'profile') {
     currentPage.value = 'profile'
     errorCode.value = null
@@ -219,6 +225,8 @@ onUnmounted(() => {
       :sidebar-collapsed="sidebarCollapsed"
       @login-success="handleLoginSuccess"
       @toggle-sidebar="toggleSidebar"
+      @go-register="() => handleSelect('register')"
+      @go-forgot-password="() => handleSelect('forgot-password')"
     />
     <UserProfilePage
       v-else-if="currentPage === 'profile' && isAuthenticated"

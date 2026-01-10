@@ -7,6 +7,8 @@ import MapGuidePage from './MapGuidePage.vue'
 import AdvancedTipsPage from './AdvancedTipsPage.vue'
 import ChangelogIndexPage from './ChangelogIndexPage.vue'
 import ChangelogDetailPage from './ChangelogDetailPage.vue'
+import RegisterPage from './RegisterPage.vue'
+import ForgotPasswordPage from './ForgotPasswordPage.vue'
 
 const props = defineProps({
   currentPage: {
@@ -152,6 +154,20 @@ onMounted(() => {
       :version="changelogVersion"
       @back-to-index="emit('navigate', 'changelog')"
       @navigate-to-version="(version) => emit('navigate', 'changelog', version)"
+    />
+    
+    <!-- 注册页面 -->
+    <RegisterPage 
+      v-else-if="currentPage === 'register'"
+      @register-success="(data) => emit('navigate', 'login')"
+      @go-login="emit('navigate', 'login')"
+    />
+    
+    <!-- 忘记密码页面 -->
+    <ForgotPasswordPage
+      v-else-if="currentPage === 'forgot-password'"
+      @reset-success="emit('navigate', 'login')"
+      @go-login="emit('navigate', 'login')"
     />
     
     <!-- 职业详情页面 -->

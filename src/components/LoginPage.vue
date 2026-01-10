@@ -16,7 +16,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['login-success', 'toggle-sidebar'])
+const emit = defineEmits(['login-success', 'toggle-sidebar', 'go-register', 'go-forgot-password'])
 
 const { login, register } = useAuth()
 
@@ -395,6 +395,18 @@ const togglePasswordVisibility = () => {
             </span>
           </button>
 
+          <!-- 忘记密码链接（仅登录模式显示） -->
+          <div v-if="isLogin" class="forgot-password-link">
+            <button 
+              type="button"
+              class="link-btn"
+              @click="emit('go-forgot-password')"
+              :disabled="loading"
+            >
+              忘记密码？
+            </button>
+          </div>
+
           <!-- 切换模式 -->
           <div class="form-footer">
             <span class="footer-text">
@@ -403,7 +415,7 @@ const togglePasswordVisibility = () => {
             <button 
               type="button" 
               class="switch-btn"
-              @click="switchMode"
+              @click="isLogin ? emit('go-register') : switchMode()"
               :disabled="loading"
             >
               {{ isLogin ? '立即注册' : '立即登录' }}
@@ -958,6 +970,32 @@ const togglePasswordVisibility = () => {
 }
 
 /* Footer */
+.forgot-password-link {
+  text-align: right;
+  margin-top: 8px;
+  margin-bottom: -8px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s;
+}
+
+.link-btn:hover:not(:disabled) {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.link-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .form-footer {
   text-align: center;
   padding-top: 24px;
@@ -1211,7 +1249,7 @@ const togglePasswordVisibility = () => {
 }
 
 /* High Contrast Mode Support */
-@media (prefers-contrast: high) {
+@media (prefers-contrast: more) {
   .glass-card {
     background: var(--bg-primary);
     border: 2px solid var(--text-primary);
