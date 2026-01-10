@@ -28,7 +28,7 @@ const versions = ref([
   {
     version: 'V2.8',
     title: '列车更新',
-    date: '2024-01',
+    date: '2025-01',
     badge: '重大更新',
     type: 'major',
     description: '列车系统全面革新！新增迷幻师角色，20+角色调整，全新地图系统，带来前所未有的游戏体验。',
