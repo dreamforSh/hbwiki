@@ -7,7 +7,16 @@ const { validateEmailForRegistration, maskEmail } = require('../utils/emailValid
  * 创建邮件传输器
  */
 function createTransporter() {
-  return nodemailer.createTransport(emailConfig.smtp)
+  // 创建传输器配置
+  const transportConfig = {
+    ...emailConfig.smtp,
+    // 禁用安全检查，允许自签名证书
+    tls: {
+      rejectUnauthorized: false
+    }
+  }
+  
+  return nodemailer.createTransport(transportConfig)
 }
 
 /**
