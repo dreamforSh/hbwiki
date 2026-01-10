@@ -55,9 +55,9 @@ const stats = ref({
 })
 
 const targetStats = {
-  professions: 36,
+  professions: 45,
   factions: 3,
-  skills: 10,
+  skills: 50,
   carriages: 8
 }
 
@@ -364,7 +364,7 @@ onMounted(() => {
                     <GameIcon name="heart" :size="28" class="faction-icon" />
                     <h3>好人阵营</h3>
                   </div>
-                  <p>维护列车秩序，找出并消灭所有威胁。包括平民、义警等职业。</p>
+                  <p>维护列车秩序，找出并消灭所有威胁。包含26个职业：乘务员、医生、列车长、酒保、大嗓门、召回者、验尸官、巫毒、记者、广播员、复仇者、拳击手、私家侦探、工程师、邮差、运动员、明星、歌手、心理学家、退伍军人、小透明、更好的召回者、更好的义警、警卫等。</p>
                   <div class="faction-glow"></div>
                 </div>
                 <div class="faction-card evil glass-panel card-hover">
@@ -372,7 +372,7 @@ onMounted(() => {
                     <GameIcon name="skull" :size="28" class="faction-icon" />
                     <h3>坏人阵营</h3>
                   </div>
-                  <p>隐藏身份，暗中破坏，消灭所有好人。包括杀手等职业。</p>
+                  <p>隐藏身份，暗中破坏，消灭所有好人。包含11个职业：刽子手、变形者、幽灵、交换者、亡语杀手、阴谋家、潜行者、设陷者、迷幻师、死灵法师、贪婪-扒手等，每个职业都拥有独特的杀戮技巧。</p>
                   <div class="faction-glow"></div>
                 </div>
                 <div class="faction-card neutral glass-panel card-hover">
@@ -380,7 +380,7 @@ onMounted(() => {
                     <GameIcon name="cube" :size="28" class="faction-icon" />
                     <h3>中立阵营</h3>
                   </div>
-                  <p>有自己独特的胜利条件，可能与任何阵营合作或对抗。</p>
+                  <p>有自己独特的胜利条件，可能与任何阵营合作或对抗。包含8个职业：秃鹫、小丑、赌徒、滑头鬼、傀儡师、恋慕者、间谍/失忆者/身份窃贼、纵火犯等，玩法多样且充满变数。</p>
                   <div class="faction-glow"></div>
                 </div>
               </div>
