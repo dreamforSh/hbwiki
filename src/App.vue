@@ -3,6 +3,11 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import WikiSidebar from './components/WikiSidebar.vue'
 import WikiContent from './components/WikiContent.vue'
 import ErrorPage from './components/ErrorPage.vue'
+import LoginPage from './components/LoginPage.vue'
+import UserProfilePage from './components/UserProfilePage.vue'
+import { useAuth } from './composables/useAuth'
+
+const { user, isAuthenticated, initAuth } = useAuth()
 
 const selectedNavId = ref('')
 const sidebarCollapsed = ref(false)
@@ -35,6 +40,12 @@ const handleSelect = (id) => {
   } else if (id === 'home') {
     currentPage.value = 'home'
     errorCode.value = null
+  } else if (id === 'login') {
+    currentPage.value = 'login'
+    errorCode.value = null
+  } else if (id === 'profile') {
+    currentPage.value = 'profile'
+    errorCode.value = null
   } else if (id === '404' || id === '500' || id === '502' || id === '503' || id === '504') {
     errorCode.value = parseInt(id)
     currentPage.value = 'error'
@@ -43,6 +54,11 @@ const handleSelect = (id) => {
   if (id !== 'profession-detail') {
     selectedProfession.value = null
   }
+}
+
+const handleLoginSuccess = () => {
+  currentPage.value = 'home'
+  selectedNavId.value = ''
 }
 
 const handleGoHome = () => {
@@ -94,6 +110,9 @@ const checkMobile = () => {
 }
 
 onMounted(() => {
+  // 初始化认证状态
+  initAuth()
+  
   // 主题初始化
   const savedTheme = localStorage.getItem('theme')
   if (savedTheme) {
@@ -173,6 +192,8 @@ onUnmounted(() => {
       :selected-id="selectedNavId"
       :collapsed="sidebarCollapsed"
       :is-dark-mode="isDarkMode"
+      :user="user"
+      :is-authenticated="isAuthenticated"
       @select="handleSelect"
       @toggle-sidebar="toggleSidebar"
       @toggle-theme="toggleTheme"
@@ -183,6 +204,18 @@ onUnmounted(() => {
       :sidebar-collapsed="sidebarCollapsed"
       @go-home="handleGoHome"
       @toggle-sidebar="toggleSidebar"
+    />
+    <LoginPage
+      v-else-if="currentPage === 'login'"
+      :sidebar-collapsed="sidebarCollapsed"
+      @login-success="handleLoginSuccess"
+      @toggle-sidebar="toggleSidebar"
+    />
+    <UserProfilePage
+      v-else-if="currentPage === 'profile' && isAuthenticated"
+      :sidebar-collapsed="sidebarCollapsed"
+      @toggle-sidebar="toggleSidebar"
+      @go-login="() => handleSelect('login')"
     />
     <WikiContent 
       v-else
