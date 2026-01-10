@@ -17,8 +17,9 @@ const isMobile = ref(false)
 const currentPage = ref('home')
 const selectedProfession = ref(null)
 const errorCode = ref(null)
+const changelogVersion = ref(null)
 
-const handleSelect = (id) => {
+const handleSelect = (id, param = null) => {
   selectedNavId.value = id
   // 移动端选择后自动关闭侧边栏
   if (isMobile.value) {
@@ -37,6 +38,10 @@ const handleSelect = (id) => {
   } else if (id === 'tips') {
     currentPage.value = 'tips'
     errorCode.value = null
+  } else if (id === 'changelog') {
+    currentPage.value = 'changelog'
+    changelogVersion.value = param // param 可以是版本号或 null
+    errorCode.value = null
   } else if (id === 'home') {
     currentPage.value = 'home'
     errorCode.value = null
@@ -53,6 +58,10 @@ const handleSelect = (id) => {
   // 如果不是选择职业详情，清空选中的职业
   if (id !== 'profession-detail') {
     selectedProfession.value = null
+  }
+  // 如果不是更新日志，清空版本号
+  if (id !== 'changelog') {
+    changelogVersion.value = null
   }
 }
 
@@ -222,6 +231,7 @@ onUnmounted(() => {
       :current-page="currentPage"
       :profession="selectedProfession"
       :sidebar-collapsed="sidebarCollapsed"
+      :changelog-version="changelogVersion"
       @toggle-sidebar="toggleSidebar"
       @select-profession="handleSelectProfession"
       @navigate="handleSelect"

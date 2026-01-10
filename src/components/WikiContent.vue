@@ -5,6 +5,8 @@ import GameplayPage from './GameplayPage.vue'
 import ProfessionsPage from './ProfessionsPage.vue'
 import MapGuidePage from './MapGuidePage.vue'
 import AdvancedTipsPage from './AdvancedTipsPage.vue'
+import ChangelogIndexPage from './ChangelogIndexPage.vue'
+import ChangelogDetailPage from './ChangelogDetailPage.vue'
 
 const props = defineProps({
   currentPage: {
@@ -18,6 +20,10 @@ const props = defineProps({
   sidebarCollapsed: {
     type: Boolean,
     default: false
+  },
+  changelogVersion: {
+    type: String,
+    default: null
   }
 })
 
@@ -134,6 +140,20 @@ onMounted(() => {
     <!-- 进阶技巧页面 -->
     <AdvancedTipsPage v-else-if="currentPage === 'tips'" />
     
+    <!-- 更新日志索引页面 -->
+    <ChangelogIndexPage 
+      v-else-if="currentPage === 'changelog' && !changelogVersion"
+      @navigate-to-version="(version) => emit('navigate', 'changelog', version)"
+    />
+    
+    <!-- 更新日志详情页面 -->
+    <ChangelogDetailPage 
+      v-else-if="currentPage === 'changelog' && changelogVersion"
+      :version="changelogVersion"
+      @back-to-index="emit('navigate', 'changelog')"
+      @navigate-to-version="(version) => emit('navigate', 'changelog', version)"
+    />
+    
     <!-- 职业详情页面 -->
     <article v-else-if="currentPage === 'profession-detail' && profession" class="profession-detail">
       <button 
@@ -194,8 +214,8 @@ onMounted(() => {
           <h1 class="hero-title">哈比列车</h1>
           <p class="hero-subtitle">在这趟神秘的列车上，每个人都有自己的秘密...</p>
           <div class="hero-actions">
-            <button class="btn-primary">开始探索</button>
-            <button class="btn-secondary">查看更新日志</button>
+            <button class="btn-primary" @click="emit('navigate', 'professions')">开始探索</button>
+            <button class="btn-secondary" @click="emit('navigate', 'changelog')">查看更新日志</button>
           </div>
         </div>
       </div>
