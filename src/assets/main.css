@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import './gradients.css';
 
 * {
   margin: 0;
@@ -23,26 +24,45 @@
   
   --hero-gradient: linear-gradient(135deg, #1a1a24 0%, #242430 100%);
   
-  /* 背景渐变和图案 */
-  --bg-gradient: radial-gradient(ellipse at top, rgba(255, 92, 141, 0.15) 0%, transparent 50%),
-                  radial-gradient(ellipse at bottom right, rgba(66, 165, 245, 0.12) 0%, transparent 50%),
-                  radial-gradient(ellipse at bottom left, rgba(102, 187, 106, 0.1) 0%, transparent 50%),
-                  linear-gradient(180deg, #0a0a0f 0%, #12121a 50%, #0a0a0f 100%);
+  /* 背景渐变和图案 - 增强版 */
+  --bg-gradient: 
+    radial-gradient(circle at 20% 20%, rgba(255, 92, 141, 0.18) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(66, 165, 245, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(102, 187, 106, 0.12) 0%, transparent 60%),
+    linear-gradient(135deg, #0a0a0f 0%, #15152a 25%, #1a1a2e 50%, #15152a 75%, #0a0a0f 100%);
+  
   --bg-pattern: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 20px,
+      rgba(255, 92, 141, 0.03) 20px,
+      rgba(255, 92, 141, 0.03) 40px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      rgba(66, 165, 245, 0.02) 20px,
+      rgba(66, 165, 245, 0.02) 40px
+    ),
     repeating-linear-gradient(
       0deg,
       transparent,
       transparent 2px,
       rgba(255, 255, 255, 0.02) 2px,
       rgba(255, 255, 255, 0.02) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(255, 255, 255, 0.02) 2px,
-      rgba(255, 255, 255, 0.02) 4px
     );
+  
+  --bg-mesh: 
+    radial-gradient(at 40% 20%, hsla(28,100%,74%,0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(189,100%,56%,0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(355,100%,93%,0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(340,100%,76%,0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(22,100%,77%,0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, hsla(242,100%,70%,0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, hsla(343,100%,76%,0.08) 0px, transparent 50%);
+  
   --bg-pattern-opacity: 1;
   
   /* 文本颜色 - 提高对比度 */
@@ -85,15 +105,36 @@
   --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   --transition-theme: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* 玻璃拟态 */
-  --glass-bg: rgba(30, 30, 30, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --backdrop-blur: blur(16px);
+  /* 玻璃拟态 - 增强版 */
+  --glass-bg: linear-gradient(
+    135deg,
+    rgba(30, 30, 40, 0.8) 0%,
+    rgba(25, 25, 35, 0.7) 100%
+  );
+  --glass-border: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 92, 141, 0.1) 50%,
+    rgba(66, 165, 245, 0.08) 100%
+  );
+  --glass-shine: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 50%
+  );
+  --backdrop-blur: blur(20px);
+  
+  /* 渐变效果 */
+  --gradient-primary: linear-gradient(135deg, #ff5c8d 0%, #ff7ca3 50%, #ffa3c1 100%);
+  --gradient-secondary: linear-gradient(135deg, #42a5f5 0%, #64b5f6 50%, #90caf9 100%);
+  --gradient-success: linear-gradient(135deg, #66bb6a 0%, #81c784 50%, #a5d6a7 100%);
+  --gradient-warning: linear-gradient(135deg, #ffa726 0%, #ffb74d 50%, #ffcc80 100%);
+  --gradient-mesh: linear-gradient(135deg, rgba(255, 92, 141, 0.1) 0%, rgba(66, 165, 245, 0.1) 100%);
 }
 
 :root[data-theme="light"] {
   /* 核心色彩 - 柔和的浅色调 */
-  --bg-primary: #f5f7fa;
+  --bg-primary: linear-gradient(180deg, #f8f9fc 0%, #f0f2f8 50%, #e8ebf3 100%);
   --bg-secondary: #ffffff;
   --bg-tertiary: #f0f2f5;
 
@@ -195,13 +236,23 @@ body::after {
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--bg-gradient);
-  background-size: 200% 200%;
+  background: var(--bg-gradient), var(--bg-mesh);
+  background-size: 200% 200%, 100% 100%;
+  background-blend-mode: overlay, normal;
   z-index: -1;
   pointer-events: none;
   transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1),
               background-size 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: gradientShift 20s ease infinite;
+  animation: gradientShift 20s ease infinite, meshPulse 15s ease-in-out infinite;
+}
+
+@keyframes meshPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
 }
 
 /* 主题切换时的特殊效果 */
@@ -253,24 +304,82 @@ button {
 /* 实用类 */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: var(--backdrop-blur);
-  -webkit-backdrop-filter: var(--backdrop-blur);
+  backdrop-filter: var(--backdrop-blur) saturate(180%);
+  -webkit-backdrop-filter: var(--backdrop-blur) saturate(180%);
   border: 1px solid var(--glass-border);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
   transition: background var(--transition-theme),
               border-color var(--transition-theme),
               color var(--transition-theme),
               box-shadow var(--transition-normal);
 }
 
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: var(--glass-shine);
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.glass-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
 .card-hover {
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal), background var(--transition-normal);
+  transition: transform var(--transition-normal), 
+              box-shadow var(--transition-normal), 
+              border-color var(--transition-normal), 
+              background var(--transition-normal);
   cursor: pointer;
+  position: relative;
+}
+
+.card-hover::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(
+    135deg, 
+    rgba(255, 92, 141, 0.4), 
+    rgba(66, 165, 245, 0.4), 
+    rgba(102, 187, 106, 0.4)
+  );
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .card-hover:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: var(--shadow-md), var(--shadow-glow);
-  border-color: var(--accent-color);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 
+    var(--shadow-lg), 
+    var(--shadow-glow),
+    0 0 40px rgba(255, 92, 141, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.card-hover:hover::after {
+  opacity: 1;
 }
 
 /* 动画关键帧 */
