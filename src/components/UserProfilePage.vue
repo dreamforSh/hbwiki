@@ -96,14 +96,29 @@ const handleDeleteAccount = async () => {
     if (result.success) {
       // 成功后退出登录
       closeDeleteModal()
-      alert('账号已成功注销')
-      logout()
-      emit('go-login')
+      
+      // 显示成功提示
+      const notification = document.createElement('div')
+      notification.className = 'delete-success-notification'
+      notification.textContent = '账号已成功注销'
+      document.body.appendChild(notification)
+      
+      setTimeout(() => {
+        logout()
+        emit('go-login')
+        notification.remove()
+      }, 2000)
     } else {
       deleteError.value = result.message || '注销失败，请检查密码是否正确'
     }
   } catch (error) {
-    deleteError.value = '注销失败，请稍后重试'
+    console.error('注销账号错误:', error)
+    // 如果是网络错误，提供更友好的提示
+    if (error.message && error.message.includes('网络')) {
+      deleteError.value = '无法连接到服务器，请检查网络连接'
+    } else {
+      deleteError.value = '注销失败，请稍后重试'
+    }
   } finally {
     deleteLoading.value = false
   }
@@ -899,6 +914,34 @@ const handleLogout = () => {
 .modal-fade-leave-to .modal-container {
   transform: scale(0.9) translateY(20px);
   opacity: 0;
+}
+
+/* 全局通知样式 */
+:global(.delete-success-notification) {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--good-color);
+  color: white;
+  padding: 20px 40px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 8px 32px rgba(102, 187, 106, 0.4);
+  z-index: 10000;
+  animation: notification-appear 0.3s ease;
+}
+
+@keyframes notification-appear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 /* 响应式 */

@@ -174,10 +174,28 @@ export async function deleteAccount(email, password) {
       body: JSON.stringify({ email, password })
     })
 
+    // 检查响应状态
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}))
+      return {
+        success: false,
+        message: data.message || `服务器错误 (${response.status})`
+      }
+    }
+
     const data = await response.json()
     return data
   } catch (error) {
     console.error('注销账号失败:', error)
+    
+    // 区分不同类型的错误
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      return {
+        success: false,
+        message: '无法连接到服务器，请检查后端服务是否运行'
+      }
+    }
+    
     return {
       success: false,
       message: '网络错误，请稍后重试'

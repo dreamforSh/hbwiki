@@ -6,7 +6,6 @@ import ErrorPage from './components/ErrorPage.vue'
 import LoginPage from './components/LoginPage.vue'
 import ForgotPasswordPage from './components/ForgotPasswordPage.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
-import VercelAnalyticsPage from './components/VercelAnalyticsPage.vue'
 import { useAuth } from './composables/useAuth'
 
 const { user, isAuthenticated, initAuth } = useAuth()
@@ -59,9 +58,6 @@ const handleSelect = (id, param = null) => {
   } else if (id === 'profile') {
     currentPage.value = 'profile'
     errorCode.value = null
-  } else if (id === 'analytics') {
-    currentPage.value = 'analytics'
-    errorCode.value = null
   } else if (id === '404' || id === '500' || id === '502' || id === '503' || id === '504') {
     errorCode.value = parseInt(id)
     currentPage.value = 'error'
@@ -73,10 +69,6 @@ const handleSelect = (id, param = null) => {
   // 如果不是更新日志，清空版本号
   if (id !== 'changelog') {
     changelogVersion.value = null
-  }
-  // 如果不是 analytics，清空 analytics 相关状态
-  if (id !== 'analytics') {
-    // analytics page doesn't maintain state
   }
 }
 
@@ -247,10 +239,6 @@ onUnmounted(() => {
       :sidebar-collapsed="sidebarCollapsed"
       @toggle-sidebar="toggleSidebar"
       @go-login="() => handleSelect('login')"
-    />
-    <VercelAnalyticsPage
-      v-else-if="currentPage === 'analytics'"
-      :sidebar-collapsed="sidebarCollapsed"
     />
     <WikiContent 
       v-else
