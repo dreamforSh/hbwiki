@@ -671,7 +671,7 @@ export const professions = [
   },
   {
     id: 'better_vigilante',
-    name: '红海兵',
+    name: '红海军',
     nameEn: 'Better Vigilante',
     category: '平民',
     description: '尽最大努力活到最后，凭借仅有的武器为平民翻盘。',
