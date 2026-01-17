@@ -671,14 +671,14 @@ export const professions = [
   },
   {
     id: 'better_vigilante',
-    name: '红海军',
+    name: '红海兵',
     nameEn: 'Better Vigilante',
     category: '平民',
     description: '尽最大努力活到最后，凭借仅有的武器为平民翻盘。',
     features: [
       '当场上只剩下2名平民时',
       '获得一把德林加手枪和手雷',
-      '德林加手枪:只有在命中玩家时才会装填子弹'
+      '德林加手枪:只有在命中玩家时才会装填子弹，cd为2秒'
     ],
     icon: '💣'
   },
@@ -700,6 +700,6 @@ export const professions = [
 // 职业分类
 export const categories = [
   { id: 'killer', name: '杀手', count: 13 },
-  { id: 'neutral', name: '中立', count: 9 },
+  { id: 'neutral', name: '中立', count: 10 },
   { id: 'civilian', name: '平民', count: 26 }
 ]
