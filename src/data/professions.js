@@ -22,16 +22,24 @@ export const professions = [
     }
   },
   {
-    id: 'shapeshifter',
+    id: 'morphling',
     name: '变形者',
-    nameEn: 'Shapeshifter',
+    nameEn: 'Morphling',
     category: '杀手',
     description: '可以变形成任何活着的玩家。',
     features: [
       '冷却后可变形',
-      '可变成任何活着的玩家'
+      '可变成任何活着的玩家',
+      '购买迷幻瓶(175金币)',
+      '右键制造烟雾',
+      '20格范围视野随机偏离',
+      '持续3秒',
+      '耐久2点'
     ],
-    icon: '🎭'
+    icon: '🎭',
+    details: {
+      shop: ['迷幻瓶(175金币)']
+    }
   },
   {
     id: 'phantom',
@@ -54,30 +62,33 @@ export const professions = [
     description: '可以交换两名玩家的位置。',
     features: [
       '冷却后可使用',
-      '交换地图上两名玩家位置'
+      '交换地图上两名玩家位置',
+      '无法交换自己'
     ],
     icon: '🔄'
   },
   {
-    id: 'deadspeaker',
+    id: 'the_insane_damned_paranoid_killer',
     name: '亡语杀手',
-    nameEn: 'Dead Speaker',
+    nameEn: 'The insane damned paranoid Killer',
     category: '杀手',
     description: '可以听到死人的声音。',
     features: [
-      '能听到死者语音'
+      '能听到死者语音',
+      '可以伪装成尸体，可以被验尸官察觉',
+      '假扮尸体期间不无敌',
     ],
     icon: '💀'
   },
   {
-    id: 'schemer',
+    id: 'conspirator',
     name: '阴谋家',
-    nameEn: 'Schemer',
+    nameEn: 'Conspirator',
     category: '杀手',
     description: '通过阴谋书页写下玩家名字和职业来击杀目标。',
     features: [
       '购买阴谋书页(150金币)',
-      '写上正确名字与职业',
+      '写上目标玩家正确的名字与职业',
       '20秒后目标死亡',
       '猜错3次自己死亡'
     ],
@@ -98,11 +109,11 @@ export const professions = [
     category: '杀手',
     description: '三阶段进化型杀手，从观察到狩猎再到处刑。',
     features: [
-      '禁用商店',
+      '禁用商店，只能购买撬锁器',
       '窥伺:视线内玩家每秒提供1能量',
       '观察(500能量):获得狩猎+护盾+无限奔跑',
-      '狩猎:获得刀,击杀2人后获得处决',
-      '处决:左键击杀(2秒CD)',
+      '狩猎:获得刀,失去无限奔跑的效果,击杀2人后获得处决',
+      '处决:可使用左键击杀玩家(2秒CD)',
       '处刑(180秒):获得突进',
       '突进:右键蓄力冲刺击杀'
     ],
@@ -118,28 +129,10 @@ export const professions = [
       '最多储存3个印记',
       '冷却30秒',
       '踩中发光发声',
-      '根据标记层数囚禁',
+      '根据标记层数囚禁踩中的玩家',
       '1标记:3秒 2标记:10秒 3标记:25秒'
     ],
     icon: '🪤'
-  },
-  {
-    id: 'illusionist',
-    name: '迷幻师',
-    nameEn: 'Illusionist',
-    category: '杀手',
-    description: '使用迷幻瓶制造烟雾干扰玩家视野。',
-    features: [
-      '购买迷幻瓶(175金币)',
-      '右键制造烟雾',
-      '20格范围视野随机偏离',
-      '持续3秒',
-      '耐久2点'
-    ],
-    icon: '🌀',
-    details: {
-      shop: ['迷幻瓶(175金币)']
-    }
   },
   {
     id: 'necromancer',
@@ -152,22 +145,77 @@ export const professions = [
       '复活死者为随机杀手',
       '有杀手直觉',
       '复活有图腾音效和全服通报',
-      '冷却3分钟'
+      '冷却3分钟',
+      '无个人商店'
     ],
     icon: '☠️'
   },
   {
-    id: 'greed-pickpocket',
+    id: 'avaricious',
     name: '贪婪-扒手',
-    nameEn: 'Greed Pickpocket',
+    nameEn: 'Avaricious',
     category: '杀手',
     description: '多杀手时出现，通过扒窃周围玩家获取金币。',
     features: [
       '开局50金币',
       '每分钟扒取周围玩家金币',
-      '每位玩家提供30金币'
+      '每位玩家提供30金币',
+      '无法购买手榴弹',
+      '每次购买物品会使物品的价格上涨'
     ],
     icon: '💰'
+  },
+  {
+    id: 'manipulator',
+    name: '操纵师',
+    nameEn: 'Manipulator',
+    category: '杀手',
+    description: '使用技能操纵玩家，让被操控的玩家做你的替死鬼。',
+    features: [
+      '只能由恋慕者变身而成',
+      '使用技能可操控玩家50秒，期间无法使用被操控者的道具',
+      '你可以花光被操控者的金币',
+      '操纵师操控目标玩家时本体会留在原地且不具备无敌效果'
+    ],
+    icon: '⚙️'
+  },
+  {
+    id: 'bandit',
+    name: '绑匪',
+    nameEn: 'Bandit',
+    category: '杀手',
+    description: '使用暴力手段消灭列车上的乘客。',
+    features: [
+      '开局自带匪徒手枪和一个撬棍',
+      '购买枪的价格更低。',
+      '无法购买刀和疯狂模式'
+    ],
+    icon: '⚒️'
+  },
+  {
+    id: 'poisoner',
+    name: '毒师',
+    nameEn: 'Poisoner',
+    category: '杀手',
+    description: '使用药剂毒死所有乘客。',
+    features: [
+      '开可购买毒针、毒药和蝎子，且所需的价格更低',
+      '毒师无法通过除下毒以外的渠道击杀玩家',
+      '被毒针扎到的玩家会在10秒后中毒身亡'
+    ],
+    icon: '🧪'
+  },
+  {
+    id: 'thief',
+    name: '小偷',
+    nameEn: 'Thief',
+    category: '杀手',
+    description: '使乘客血本无归。',
+    features: [
+      '使用技能可以偷取目标玩家一定量的金币',
+      '并使目标玩家的金币数量下降'
+    ],
+    icon: '🥷'
   },
 
   // ==================== 中立阵营 ====================
@@ -178,6 +226,7 @@ export const professions = [
     category: '中立',
     description: '通过吃掉尸体转变为杀手。',
     features: [
+      '（变身前属于杀手阵营）',
       '吃尸体转变为杀手',
       '仅8人以上局启用'
     ],
@@ -188,12 +237,13 @@ export const professions = [
     name: '小丑',
     nameEn: 'Jester',
     category: '中立',
-    description: '拥有假武器，被射击进入疯狂模式。',
+    description: '拥有假武器，被好人射击进入疯狂模式。',
     features: [
+      '（与杀手合作达成自己的目的）',
       '拥有假刀和假左轮',
-      '被射击进入疯狂模式',
+      '被好人射击进入疯狂模式',
       '无护盾,再次被射击死亡',
-      '可能误杀队友导致游戏结束'
+      '可能误杀杀手导致游戏结束'
     ],
     icon: '🤡'
   },
@@ -204,22 +254,24 @@ export const professions = [
     category: '中立',
     description: '被杀死后有多种结局可能。',
     features: [
+      '（你的阵营取决于你的运气）',
       '33%变成杀手',
-      '33%变成正义',
+      '33%变成警长',
       '33%直接死亡',
       '1%触发隐藏结局直接胜利'
     ],
     icon: '🎲'
   },
   {
-    id: 'trickster',
+    id: 'slippery_ghost',
     name: '滑头鬼',
-    nameEn: 'Trickster',
+    nameEn: 'Slippery Ghost',
     category: '中立',
     description: '被动获取金币，拥有特殊商店道具。',
     features: [
+      '（中立阵营，可被好人直接枪决，无独立获胜条件）',
       '每20秒获得50金币',
-      '空包弹(100金币):目标枪冷却30秒',
+      '空包弹(100金币):目标枪冷却30秒,拿手中无法被别人看到',
       '烟雾弹(300金币):形成烟雾致盲',
       '扳手(50金币)',
       '关灯(200金币)',
@@ -242,11 +294,12 @@ export const professions = [
     category: '中立',
     description: '收集尸体制作傀儡进行操控。',
     features: [
+      '（变身前属于杀手阵营）',
       '禁用商店',
       '右键收集尸体(CD10秒)',
       '收集足够后变为傀儡大师',
       '制作并操控傀儡',
-      '傀儡为随机杀手',
+      '傀儡为随机杀手，金币会继承',
       '傀儡死亡不代表真实死亡',
       '持续80秒,CD1分钟'
     ],
@@ -259,22 +312,26 @@ export const professions = [
     category: '中立',
     description: '指定暗恋对象，积累能量后变为杀手。',
     features: [
+      '（变身前属于杀手阵营）',
       '开局指定窥视对象',
       '每秒提供1点能量',
-      '90能量变为随机杀手',
+      '90能量变为操纵师',
       '成为杀手后控制对象10秒'
     ],
     icon: '💕'
   },
   {
-    id: 'spy',
+    id: 'amnesiac',
     name: '间谍/失忆者/身份窃贼',
-    nameEn: 'Spy/Amnesiac/Identity Thief',
+    nameEn: 'Amnesiac',
     category: '中立',
     description: '吃别人尸体获得其身份和胜利条件。',
     features: [
+      '（阵营取决于获取的身份）',
       '吃尸体获得身份',
-      '获胜条件与被复活者相同'
+      '获胜条件与被复活者相同',
+      '能够透视周围的尸体',
+      '窃取职业前，你需要做任务维持san值'
     ],
     icon: '🕴️'
   },
@@ -285,13 +342,33 @@ export const professions = [
     category: '中立',
     description: '给玩家浇汽油后用打火机烧人获胜。',
     features: [
+      '（拥有独立获胜条件的中立）',
       '右键汽油桶浇汽油',
-      '右键打火机烧人',
-      '烧人时自己死亡',
-      '烧死所有人则胜利',
-      '需做任务保持SAN值'
+      '右键打火机烧人，若直接点燃会导致自己死亡',
+      '当浇够人数时，打火机会进入冷却',
+      '此时点燃不会导致自己死亡',
+      '烧死所有人则胜利'
     ],
     icon: '🔥'
+  },
+  {
+    id: 'initiate',
+    name: '初学者',
+    nameEn: 'Initiate',
+    category: '中立',
+    description: '杀死另外一名初学者，获取自己的身份。',
+    features: [
+      '（变身前属于好人阵营）',
+      '初学者会成对出现，且一局游戏中只会存在2名初学者',
+      '你可以使用金币购买一把刀，这把刀只能用来刺杀另一名初学者',
+      '如果刀到了其他人，你会因考核失败而死',
+      '在两位初学者均存活时，你属于好人阵营',
+      '需做任务维持san值，但与好人不同的是，初学者无法捡起手枪',
+      '当你成功用刀刺杀了另一名初学者，你会获得随机身份',
+      '在刺杀完成之前，你的胜利目标与好人相同',
+      '在刺杀完成之后，你的胜利目标与你变成的身份相同',
+    ],
+    icon: '🎓'
   },
 
   // ==================== 平民阵营 ====================
@@ -322,16 +399,16 @@ export const professions = [
     icon: '💉'
   },
   {
-    id: 'captain',
+    id: 'conductor',
     name: '列车长/船长',
-    nameEn: 'Captain',
+    nameEn: 'Conductor',
     category: '平民',
     description: '拥有万能钥匙和望远镜。',
     features: [
       '拥有万能钥匙',
       '拥有望远镜',
       '死亡时掉落道具',
-      '需让所有人知道身份'
+      '需尽快向好人确认身份'
     ],
     icon: '🧑‍✈️'
   },
@@ -351,9 +428,9 @@ export const professions = [
     icon: '🍺'
   },
   {
-    id: 'loudmouth',
+    id: 'noisemaker',
     name: '大嗓门',
-    nameEn: 'Loudmouth',
+    nameEn: 'Noisemaker',
     category: '平民',
     description: '死亡时尸体发光，可购买鞭炮。',
     features: [
@@ -384,6 +461,8 @@ export const professions = [
     features: [
       '查看尸体死亡时间',
       '查看尸体死亡原因',
+      '可以分辨出假扮的尸体',
+      '每隔一段时间能够察觉周围的尸体',
       '旁观模式也可使用'
     ],
     icon: '🔬'
@@ -401,20 +480,21 @@ export const professions = [
     icon: '🪄'
   },
   {
-    id: 'reporter',
+    id: 'awesome_binglus',
     name: '记者',
-    nameEn: 'Reporter',
+    nameEn: 'Awesome Binglus',
     category: '平民',
     description: '携带相机、相册和便条记录信息。',
     features: [
-      '携带便条、相机、相册',
-      'Shift+右键丢出相册',
-      '可购买相册纸和便条',
-      '右键装填相册纸',
+      '携带便条、相机',
+      'Shift+右键丢出相片',
+      '可购买相纸和便条',
+      '物品栏中将相纸右键拖入相机装填相纸',
       '滚轮调整视距',
       'Shift调整闪光灯和曝光度',
       '右键拍摄',
-      'F6关闭第一人称'
+      'F6关闭第一人称',
+      '死亡时会掉落相片'
     ],
     icon: '📸'
   },
@@ -426,7 +506,7 @@ export const professions = [
     description: '向全体玩家发送消息。',
     features: [
       '向全体发送消息',
-      '消耗100金币'
+      '消耗150金币'
     ],
     icon: '📻'
   },
@@ -459,7 +539,7 @@ export const professions = [
   {
     id: 'detective',
     name: '私家侦探',
-    nameEn: 'Private Detective',
+    nameEn: 'Detective',
     category: '平民',
     description: '可以搜查玩家物品栏，长按蹲下察觉动静。',
     features: [
@@ -479,15 +559,15 @@ export const professions = [
     category: '平民',
     description: '购买加固道具和警报陷阱保护房门。',
     features: [
-      '加固道具(75金币):防御一次撬棍',
-      '临时警报陷阱(150金币)',
+      '加固道具(30金币):防御一次撬棍',
+      '临时警报陷阱(75金币)，被锹时发出警报，可将房门上锁',
       '蹲下右键拆卸道具'
     ],
     icon: '🔧',
     details: {
       shop: [
-        '加固道具(75金币)',
-        '临时警报陷阱(150金币)'
+        '加固道具(30金币)',
+        '临时警报陷阱(75金币)'
       ]
     }
   },
@@ -578,9 +658,9 @@ export const professions = [
     icon: '🎖️'
   },
   {
-    id: 'invisible',
+    id: 'ghost',
     name: '小透明',
-    nameEn: 'Invisible',
+    nameEn: 'Ghost',
     category: '平民',
     description: '无法被杀手直觉观察，可查看剩余游戏时间。',
     features: [
@@ -590,33 +670,23 @@ export const professions = [
     icon: '👁️'
   },
   {
-    id: 'better-recaller',
-    name: '更好的召回者',
-    nameEn: 'Better Recaller',
+    id: 'better_vigilante',
+    name: '红海军',
+    nameEn: 'Better Vigilante',
     category: '平民',
-    description: '召回者的增强版本，开局拥有手雷。',
+    description: '尽最大努力活到最后，凭借仅有的武器为平民翻盘。',
     features: [
-      '开局拥有手雷',
-      '其他同召回者'
+      '当场上只剩下2名平民时',
+      '获得一把德林加手枪和手雷',
+      '德林加手枪:只有在命中玩家时才会装填子弹'
     ],
     icon: '💣'
   },
+
   {
-    id: 'better-vigilante',
-    name: '更好的义警',
-    nameEn: 'Better Vigilante',
-    category: '平民',
-    description: '义警的增强版本，开局拥有手雷。',
-    features: [
-      '开局拥有手雷',
-      '其他同义警'
-    ],
-    icon: '💥'
-  },
-  {
-    id: 'guard',
-    name: '警卫',
-    nameEn: 'Guard',
+    id: 'vigilante',
+    name: '义警',
+    nameEn: 'Vigilante',
     category: '平民',
     description: '开局拥有一把枪，击中好人会因小脑而死。',
     features: [
@@ -629,7 +699,7 @@ export const professions = [
 
 // 职业分类
 export const categories = [
-  { id: 'killer', name: '杀手', count: 11 },
-  { id: 'neutral', name: '中立', count: 8 },
+  { id: 'killer', name: '杀手', count: 13 },
+  { id: 'neutral', name: '中立', count: 9 },
   { id: 'civilian', name: '平民', count: 26 }
 ]
