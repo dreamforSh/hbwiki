@@ -28,12 +28,12 @@ const gameRules = [
     items: [
       '好人阵营需要完成任务来推进游戏',
       '完成任务可以获得奖励和恢复SAN值',
-      '任务类型多样，包括解谜、收集等',
+      '任务类型多样，包括解谜、收集等（未实现）',
       '坏人阵营可以伪装完成任务'
     ]
   },
   {
-    title: '投票系统',
+    title: '投票系统(未实现)',
     icon: '🗳️',
     items: [
       '玩家可以发起投票讨论',
@@ -46,8 +46,8 @@ const gameRules = [
 
 const gamePhases = [
   {
-    phase: '准备阶段',
-    description: '玩家选择职业，了解自己的技能和胜利条件',
+    phase: '预选角色',
+    description: '系统随机职业，了解自己的技能和胜利条件',
     duration: '2-3分钟'
   },
   {
@@ -56,18 +56,8 @@ const gamePhases = [
     duration: '15-30分钟'
   },
   {
-    phase: '讨论阶段',
-    description: '玩家可以发起讨论，分享信息，进行推理',
-    duration: '5-10分钟'
-  },
-  {
-    phase: '投票阶段',
-    description: '玩家投票决定是否淘汰某个玩家',
-    duration: '1-2分钟'
-  },
-  {
     phase: '结算阶段',
-    description: '根据投票结果和游戏进程，判断各阵营是否达成胜利条件',
+    description: '根据游戏进程，判断各阵营是否达成胜利条件',
     duration: '即时'
   }
 ]
