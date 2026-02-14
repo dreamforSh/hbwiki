@@ -51,7 +51,7 @@ const getFactionColor = (category) => {
     <div class="page-header">
       <div class="page-icon">👥</div>
       <h1 class="page-title">职业介绍</h1>
-      <p class="page-subtitle">探索所有职业的详细技能和特点，以群内文档为准，wiki不会实时更新</p>
+      <p class="page-subtitle">探索所有职业的详细技能和特点</p>
     </div>
 
     <div class="content-container">
