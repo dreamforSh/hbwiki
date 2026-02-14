@@ -29,7 +29,9 @@ const emit = defineEmits(['select', 'toggle-sidebar', 'toggle-theme'])
 const quickLinks = [
   { id: 'home', icon: 'home', title: '首页', desc: '回到首页', color: '#FF5C8D' },
   { id: 'gameplay', icon: 'gamepad', title: '游戏玩法', desc: '了解基本游戏规则', color: '#66bb6a' },
+  { id: 'factions', icon: 'shield', title: '阵营介绍', desc: '了解三大阵营特点', color: '#f44336' },
   { id: 'professions', icon: 'users', title: '职业介绍', desc: '查看所有职业详情', color: '#42a5f5' },
+  { id: 'items', icon: 'package', title: '道具系统', desc: '查看游戏道具详情', color: '#9c27b0' },
   { id: 'map', icon: 'map', title: '地图指南', desc: '熟悉列车车厢布局', color: '#ec407a' },
   { id: 'tips', icon: 'lightbulb', title: '进阶技巧', desc: '学习高级实战技巧', color: '#ffa726' },
   { id: 'changelog', icon: 'book', title: '更新日志', desc: '查看游戏版本更新记录', color: '#9c27b0' }

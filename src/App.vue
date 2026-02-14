@@ -6,6 +6,8 @@ import ErrorPage from './components/ErrorPage.vue'
 import LoginPage from './components/LoginPage.vue'
 import ForgotPasswordPage from './components/ForgotPasswordPage.vue'
 import UserProfilePage from './components/UserProfilePage.vue'
+import FactionPage from './components/FactionPage.vue'
+import ItemsPage from './components/ItemsPage.vue'
 import { useAuth } from './composables/useAuth'
 
 const { user, isAuthenticated, initAuth } = useAuth()
@@ -32,6 +34,12 @@ const handleSelect = (id, param = null) => {
     errorCode.value = null
   } else if (id === 'professions') {
     currentPage.value = 'professions'
+    errorCode.value = null
+  } else if (id === 'factions') {
+    currentPage.value = 'factions'
+    errorCode.value = null
+  } else if (id === 'items') {
+    currentPage.value = 'items'
     errorCode.value = null
   } else if (id === 'map') {
     currentPage.value = 'map'
@@ -176,6 +184,13 @@ onMounted(() => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('animate-fade-in-up')
+        // 支持蒸汽朋克主题的动画类
+        if (entry.target.classList.contains('scroll-fade-in') || 
+            entry.target.classList.contains('scroll-slide-left') || 
+            entry.target.classList.contains('scroll-slide-right') || 
+            entry.target.classList.contains('scroll-zoom-in')) {
+          entry.target.classList.add('visible')
+        }
         observer.unobserve(entry.target)
       }
     })
@@ -183,11 +198,22 @@ onMounted(() => {
   
   // 观察所有需要动画的元素
   setTimeout(() => {
-    const animatedElements = document.querySelectorAll('.content-section, .stat-card, .faction-card, .nav-item, .tip-item')
+    const animatedElements = document.querySelectorAll('.content-section, .stat-card, .faction-card, .nav-item, .tip-item, .scroll-fade-in, .scroll-slide-left, .scroll-slide-right, .scroll-zoom-in')
     animatedElements.forEach(el => {
       observer.observe(el)
     })
   }, 100)
+
+  // 视差滚动效果
+  const handleScroll = () => {
+    const scrollY = window.scrollY
+    document.documentElement.style.setProperty('--scroll-y', `${scrollY}`)
+  }
+  window.addEventListener('scroll', handleScroll)
+  
+  onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll)
+  })
 })
 
 onUnmounted(() => {
@@ -239,6 +265,16 @@ onUnmounted(() => {
       :sidebar-collapsed="sidebarCollapsed"
       @toggle-sidebar="toggleSidebar"
       @go-login="() => handleSelect('login')"
+    />
+    <FactionPage
+      v-else-if="currentPage === 'factions'"
+      :sidebar-collapsed="sidebarCollapsed"
+      @toggle-sidebar="toggleSidebar"
+    />
+    <ItemsPage
+      v-else-if="currentPage === 'items'"
+      :sidebar-collapsed="sidebarCollapsed"
+      @toggle-sidebar="toggleSidebar"
     />
     <WikiContent 
       v-else

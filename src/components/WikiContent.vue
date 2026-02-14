@@ -221,17 +221,23 @@ onMounted(() => {
     </article>
     
     <!-- 欢迎页面 -->
-    <div v-else class="welcome-page">
+    <div v-else class="welcome-page wood-texture">
+      <!-- 齿轮背景装饰 -->
+      <div class="gear-background gear-bg-1">⚙️</div>
+      <div class="gear-background gear-bg-2">⚙️</div>
+      <div class="gear-background gear-bg-3">⚙️</div>
+
       <!-- 头部横幅 -->
-      <div class="hero-banner">
+      <div class="hero-banner wood-panel rivets">
+        <div class="copper-corners"></div>
         <div class="hero-bg"></div>
         <div class="hero-content">
           <div class="hero-badge">星琼铁道版 Wiki</div>
-          <h1 class="hero-title">哈比列车</h1>
+          <h1 class="hero-title text-glow">哈比列车</h1>
           <p class="hero-subtitle">在这趟神秘的列车上，每个人都有自己的秘密...</p>
           <div class="hero-actions">
-            <button class="btn-primary" @click="emit('navigate', 'professions')">开始探索</button>
-            <button class="btn-secondary" @click="emit('navigate', 'changelog')">查看更新日志</button>
+            <button class="btn-steampunk" @click="emit('navigate', 'professions')">开始探索</button>
+            <button class="btn-secondary" @click="emit('navigate', 'changelog')" style="background: rgba(61, 40, 23, 0.8); color: var(--wood-light); border-color: var(--copper);">查看更新日志</button>
           </div>
         </div>
       </div>
@@ -239,39 +245,43 @@ onMounted(() => {
       <div class="content-container">
         <!-- 数据统计 -->
         <section class="stats-section">
-          <div class="stat-card glass-panel card-hover animate-fade-in-up animate-delay-100">
+          <div class="stat-card wood-panel metal-border card-3d animate-fade-in-up animate-delay-100">
+            <div class="copper-corners"></div>
             <div class="stat-icon-wrapper" style="background: rgba(255, 92, 141, 0.1); color: #ff5c8d;">
               <GameIcon name="users" :size="32" />
             </div>
             <div class="stat-info">
-              <span class="stat-number">{{ stats.professions }}</span>
+              <span class="stat-number text-glow">{{ stats.professions }}</span>
               <span class="stat-label">职业总数</span>
             </div>
           </div>
-          <div class="stat-card glass-panel card-hover animate-fade-in-up animate-delay-200">
+          <div class="stat-card wood-panel metal-border card-3d animate-fade-in-up animate-delay-200">
+            <div class="copper-corners"></div>
             <div class="stat-icon-wrapper" style="background: rgba(66, 165, 245, 0.1); color: #42a5f5;">
               <GameIcon name="shield" :size="32" />
             </div>
             <div class="stat-info">
-              <span class="stat-number">{{ stats.factions }}</span>
+              <span class="stat-number text-glow">{{ stats.factions }}</span>
               <span class="stat-label">阵营分类</span>
             </div>
           </div>
-          <div class="stat-card glass-panel card-hover animate-fade-in-up animate-delay-300">
+          <div class="stat-card wood-panel metal-border card-3d animate-fade-in-up animate-delay-300">
+            <div class="copper-corners"></div>
             <div class="stat-icon-wrapper" style="background: rgba(255, 167, 38, 0.1); color: #ffa726;">
               <GameIcon name="star" :size="32" />
             </div>
             <div class="stat-info">
-              <span class="stat-number">{{ stats.skills }}+</span>
+              <span class="stat-number text-glow">{{ stats.skills }}+</span>
               <span class="stat-label">特殊技能</span>
             </div>
           </div>
-          <div class="stat-card glass-panel card-hover animate-fade-in-up animate-delay-400">
+          <div class="stat-card wood-panel metal-border card-3d animate-fade-in-up animate-delay-400">
+            <div class="copper-corners"></div>
             <div class="stat-icon-wrapper" style="background: rgba(102, 187, 106, 0.1); color: #66bb6a;">
               <GameIcon name="train" :size="32" />
             </div>
             <div class="stat-info">
-              <span class="stat-number">{{ stats.carriages }}</span>
+              <span class="stat-number text-glow">{{ stats.carriages }}</span>
               <span class="stat-label">列车车厢</span>
             </div>
           </div>
@@ -283,7 +293,8 @@ onMounted(() => {
             <GameIcon name="video" :size="24" color="var(--accent-color)" />
             游戏实况
           </h2>
-          <div class="video-card glass-panel card-hover">
+          <div class="video-card wood-panel metal-border card-3d">
+            <div class="copper-corners"></div>
             <div class="video-header">
               <h3 class="video-title">7位经典台湾Youtuber - 全新狼人杀回归！</h3>
               <p class="video-description">45种职业的沉浸式谋杀案，体验最刺激的社交推理游戏</p>
@@ -345,7 +356,8 @@ onMounted(() => {
                 <GameIcon name="book" :size="22" color="var(--accent-color)" />
                 游戏简介
               </h2>
-              <div class="intro-card glass-panel card-hover">
+              <div class="intro-card wood-panel metal-border card-3d">
+                <div class="copper-corners"></div>
                 <p>《哈比列车》是一款多人社交推理游戏，玩家将在一列神秘的火车上扮演不同的职业角色。</p>
                 <p>每个职业都有独特的技能和胜利条件，玩家需要通过观察、推理和交流来达成目标。</p>
                 <p>游戏融合了狼人杀、太空狼人杀等经典社交推理元素，加入了独特的SAN值系统和列车场景互动。</p>
@@ -359,7 +371,8 @@ onMounted(() => {
                 阵营介绍
               </h2>
               <div class="factions-grid">
-                <div class="faction-card good glass-panel card-hover">
+                <div class="faction-card good wood-panel metal-border card-3d">
+                  <div class="copper-corners"></div>
                   <div class="faction-header">
                     <GameIcon name="heart" :size="28" class="faction-icon" />
                     <h3>好人阵营</h3>
@@ -367,7 +380,8 @@ onMounted(() => {
                   <p>维护列车秩序，找出并消灭所有威胁。包含26个职业：乘务员、医生、列车长、酒保、大嗓门、召回者、验尸官、巫毒、记者、广播员、复仇者、拳击手、私家侦探、工程师、邮差、运动员、明星、歌手、心理学家、退伍军人、小透明、更好的召回者、更好的义警、警卫等。</p>
                   <div class="faction-glow"></div>
                 </div>
-                <div class="faction-card evil glass-panel card-hover">
+                <div class="faction-card evil wood-panel metal-border card-3d">
+                  <div class="copper-corners"></div>
                   <div class="faction-header">
                     <GameIcon name="skull" :size="28" class="faction-icon" />
                     <h3>坏人阵营</h3>
@@ -375,7 +389,8 @@ onMounted(() => {
                   <p>隐藏身份，暗中破坏，消灭所有好人。包含11个职业：刽子手、变形者、幽灵、交换者、亡语杀手、阴谋家、潜行者、设陷者、迷幻师、死灵法师、贪婪-扒手等，每个职业都拥有独特的杀戮技巧。</p>
                   <div class="faction-glow"></div>
                 </div>
-                <div class="faction-card neutral glass-panel card-hover">
+                <div class="faction-card neutral wood-panel metal-border card-3d">
+                  <div class="copper-corners"></div>
                   <div class="faction-header">
                     <GameIcon name="cube" :size="28" class="faction-icon" />
                     <h3>中立阵营</h3>
@@ -399,10 +414,11 @@ onMounted(() => {
                 <div 
                   v-for="(link, index) in quickLinks" 
                   :key="index" 
-                  class="nav-item glass-panel card-hover"
+                  class="nav-item wood-panel metal-border card-3d"
                   :style="{ animationDelay: `${index * 0.1}s` }"
                   @click="emit('navigate', link.id)"
                 >
+                  <div class="copper-corners"></div>
                   <div class="nav-icon" :style="{ color: link.color }">
                     <GameIcon :name="link.icon" :size="24" />
                   </div>
@@ -422,7 +438,8 @@ onMounted(() => {
                 <GameIcon name="lightbulb" :size="22" color="var(--accent-color)" />
                 新手提示
               </h2>
-              <div class="tips-list glass-panel">
+              <div class="tips-list wood-panel metal-border">
+                <div class="copper-corners"></div>
                 <div 
                   v-for="(tip, index) in beginnerTips" 
                   :key="index" 
@@ -578,7 +595,6 @@ onMounted(() => {
   margin-bottom: 60px;
   text-align: center;
   overflow: hidden;
-  background: var(--hero-gradient);
   border-bottom: 1px solid var(--border-color);
   animation: fadeIn 0.8s ease-out;
 }
@@ -613,15 +629,9 @@ onMounted(() => {
 .hero-title {
   font-size: 4.5rem;
   font-weight: 800;
-  color: var(--text-primary);
+  font-family: 'Courier New', monospace;
   margin-bottom: 20px;
   letter-spacing: -1px;
-  background: linear-gradient(135deg, var(--text-primary), var(--accent-color), var(--text-secondary));
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient 3s ease infinite;
   position: relative;
 }
 
@@ -760,14 +770,14 @@ onMounted(() => {
 .video-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--amber);
   margin-bottom: 8px;
   line-height: 1.4;
 }
 
 .video-description {
   font-size: 1rem;
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   line-height: 1.6;
 }
 
@@ -973,7 +983,7 @@ onMounted(() => {
 .stat-number {
   font-size: 2.2rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: var(--amber);
   line-height: 1;
   margin-bottom: 4px;
   transition: color 0.3s;
@@ -986,7 +996,7 @@ onMounted(() => {
 }
 
 .stat-label {
-  color: var(--text-tertiary);
+  color: var(--wood-light);
   font-size: 0.9rem;
   font-weight: 500;
 }
@@ -1013,7 +1023,7 @@ onMounted(() => {
 
 .section-title {
   font-size: 1.5rem;
-  color: var(--text-primary);
+  color: var(--amber);
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -1037,7 +1047,7 @@ onMounted(() => {
 }
 
 .intro-card p {
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   font-size: 1.1rem;
   line-height: 1.8;
   margin-bottom: 16px;
@@ -1100,14 +1110,14 @@ onMounted(() => {
 }
 
 .faction-header h3 {
-  color: var(--text-primary);
+  color: var(--amber);
   font-size: 1.2rem;
   margin: 0;
   font-weight: 700;
 }
 
 .faction-card p {
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   font-size: 0.95rem;
   line-height: 1.6;
 }
@@ -1130,6 +1140,7 @@ onMounted(() => {
   overflow: hidden;
   opacity: 0;
   animation: fadeInUp 0.5s ease-out forwards;
+  position: relative;
 }
 
 .nav-hover-bg {
@@ -1154,7 +1165,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-primary);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 14px;
   flex-shrink: 0;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s;
@@ -1172,20 +1183,20 @@ onMounted(() => {
 }
 
 .nav-info h3 {
-  color: var(--text-primary);
+  color: var(--amber);
   font-size: 1rem;
   margin-bottom: 4px;
   font-weight: 600;
 }
 
 .nav-info p {
-  color: var(--text-tertiary);
+  color: var(--wood-light);
   font-size: 0.8rem;
   line-height: 1.4;
 }
 
 .nav-arrow {
-  color: var(--text-tertiary);
+  color: var(--wood-light);
   font-size: 1.2rem;
   opacity: 0;
   transform: translateX(-10px);
@@ -1197,7 +1208,7 @@ onMounted(() => {
 .nav-item:hover .nav-arrow {
   opacity: 1;
   transform: translateX(5px);
-  color: var(--accent-color);
+  color: var(--amber);
 }
 
 /* 新手提示 */
@@ -1233,7 +1244,7 @@ onMounted(() => {
 .tip-number {
   width: 26px;
   height: 26px;
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+  background: linear-gradient(135deg, var(--copper), var(--wood-medium));
   color: white;
   border-radius: 50%;
   display: flex;
@@ -1254,7 +1265,7 @@ onMounted(() => {
 }
 
 .tip-text {
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   font-size: 0.95rem;
   line-height: 1.5;
 }

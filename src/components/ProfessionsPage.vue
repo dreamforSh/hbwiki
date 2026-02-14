@@ -47,17 +47,23 @@ const getFactionColor = (category) => {
 </script>
 
 <template>
-  <div class="professions-page">
-    <div class="page-header">
+  <div class="professions-page wood-texture">
+    <!-- 齿轮背景装饰 -->
+    <div class="gear-background gear-bg-1">⚙️</div>
+    <div class="gear-background gear-bg-3">⚙️</div>
+
+    <div class="page-header wood-panel rivets">
+      <div class="copper-corners"></div>
+
       <div class="page-icon">👥</div>
-      <h1 class="page-title">职业介绍</h1>
+      <h1 class="page-title text-glow">职业介绍</h1>
       <p class="page-subtitle">探索所有职业的详细技能和特点</p>
     </div>
 
     <div class="content-container">
       <!-- 筛选和搜索 -->
       <section class="filter-section">
-        <div class="search-box glass-panel">
+        <div class="search-box wood-panel metal-border">
           <span class="search-icon">🔍</span>
           <input 
             v-model="searchQuery"
@@ -70,7 +76,7 @@ const getFactionColor = (category) => {
           <button 
             v-for="category in [{ id: 'all', name: '全部' }, ...categories]"
             :key="category.id"
-            :class="['category-btn', { active: selectedCategory === category.id }]"
+            :class="['category-btn btn-steampunk', { active: selectedCategory === category.id }]"
             @click="selectedCategory = category.id"
           >
             {{ category.name }}
@@ -89,7 +95,7 @@ const getFactionColor = (category) => {
           </h2>
         </div>
 
-        <div v-if="filteredProfessions.length === 0" class="empty-state glass-panel">
+        <div v-if="filteredProfessions.length === 0" class="empty-state wood-panel metal-border">
           <div class="empty-icon">🔍</div>
           <p class="empty-text">未找到匹配的职业</p>
           <button class="btn-secondary" @click="searchQuery = ''; selectedCategory = 'all'">
@@ -101,9 +107,10 @@ const getFactionColor = (category) => {
           <div 
             v-for="profession in filteredProfessions" 
             :key="profession.id"
-            class="profession-card glass-panel card-hover"
+            class="profession-card wood-panel metal-border card-3d"
             @click="handleSelectProfession(profession)"
           >
+            <div class="copper-corners"></div>
             <div class="profession-icon-wrapper" :style="{ borderColor: getFactionColor(profession.category) }">
               <span class="profession-icon">{{ profession.icon }}</span>
             </div>
@@ -145,7 +152,7 @@ const getFactionColor = (category) => {
 .page-header {
   text-align: center;
   padding: 60px 40px;
-  background: var(--hero-gradient);
+  position: relative;
   border-bottom: 1px solid var(--border-color);
   margin-bottom: 40px;
 }
@@ -159,14 +166,8 @@ const getFactionColor = (category) => {
 .page-title {
   font-size: 3rem;
   font-weight: 800;
-  color: var(--text-primary);
+  font-family: 'Courier New', monospace;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient 3s ease infinite;
 }
 
 .page-subtitle {
@@ -202,7 +203,7 @@ const getFactionColor = (category) => {
   flex: 1;
   border: none;
   background: transparent;
-  color: var(--text-primary);
+  color: var(--amber);
   font-size: 1rem;
   outline: none;
 }
@@ -221,8 +222,8 @@ const getFactionColor = (category) => {
   padding: 10px 20px;
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  background: var(--card-bg);
-  color: var(--text-secondary);
+  background: rgba(61, 40, 23, 0.6);
+  color: var(--wood-light);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -230,15 +231,15 @@ const getFactionColor = (category) => {
 }
 
 .category-btn:hover {
-  background: var(--hover-bg);
-  border-color: var(--accent-color);
-  color: var(--accent-color);
+  background: var(--copper);
+  border-color: var(--amber);
+  color: white;
   transform: translateY(-2px);
 }
 
 .category-btn.active {
-  background: var(--accent-color);
-  border-color: var(--accent-color);
+  background: var(--copper);
+  border-color: var(--amber);
   color: white;
 }
 
@@ -257,7 +258,7 @@ const getFactionColor = (category) => {
 
 .professions-count {
   font-size: 1rem;
-  color: var(--text-tertiary);
+  color: var(--wood-light);
   font-weight: 400;
   margin-left: 8px;
 }
@@ -277,6 +278,7 @@ const getFactionColor = (category) => {
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
 }
 
 .profession-card:hover {
@@ -290,7 +292,7 @@ const getFactionColor = (category) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-primary);
+  background: rgba(0, 0, 0, 0.2);
   border: 3px solid;
   flex-shrink: 0;
   transition: transform 0.3s;
@@ -320,7 +322,7 @@ const getFactionColor = (category) => {
 .profession-name {
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--amber);
   margin: 0;
 }
 
@@ -334,13 +336,13 @@ const getFactionColor = (category) => {
 }
 
 .profession-name-en {
-  color: var(--text-tertiary);
+  color: var(--wood-light);
   font-size: 0.9rem;
   margin-bottom: 8px;
 }
 
 .profession-description {
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   font-size: 0.95rem;
   line-height: 1.5;
   margin-bottom: 12px;
@@ -359,8 +361,8 @@ const getFactionColor = (category) => {
 
 .feature-tag {
   padding: 4px 10px;
-  background: var(--bg-primary);
-  color: var(--text-secondary);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--wood-lighter);
   border-radius: 8px;
   font-size: 0.75rem;
 }
@@ -375,7 +377,7 @@ const getFactionColor = (category) => {
 }
 
 .profession-arrow {
-  color: var(--text-tertiary);
+  color: var(--wood-light);
   font-size: 1.5rem;
   opacity: 0;
   transform: translateX(-10px);
@@ -386,7 +388,7 @@ const getFactionColor = (category) => {
 .profession-card:hover .profession-arrow {
   opacity: 1;
   transform: translateX(5px);
-  color: var(--accent-color);
+  color: var(--amber);
 }
 
 .empty-state {
@@ -402,7 +404,7 @@ const getFactionColor = (category) => {
 }
 
 .empty-text {
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   font-size: 1.1rem;
   margin-bottom: 24px;
 }

@@ -32,16 +32,6 @@ const gameRules = [
       '坏人阵营可以伪装完成任务'
     ]
   },
-  {
-    title: '投票系统(未实现)',
-    icon: '🗳️',
-    items: [
-      '玩家可以发起投票讨论',
-      '投票可以淘汰可疑的玩家',
-      '需要谨慎投票，避免误伤队友',
-      '投票结果会影响游戏进程'
-    ]
-  }
 ]
 
 const gamePhases = [
@@ -64,10 +54,16 @@ const gamePhases = [
 </script>
 
 <template>
-  <div class="gameplay-page">
-    <div class="page-header">
+  <div class="gameplay-page wood-texture">
+    <!-- 齿轮背景装饰 -->
+    <div class="gear-background gear-bg-1">⚙️</div>
+    <div class="gear-background gear-bg-2">⚙️</div>
+
+    <div class="page-header wood-panel rivets">
+      <div class="copper-corners"></div>
+
       <div class="page-icon">🎮</div>
-      <h1 class="page-title">游戏玩法</h1>
+      <h1 class="page-title text-glow">游戏玩法</h1>
       <p class="page-subtitle">了解哈比列车的基本规则和玩法机制</p>
     </div>
 
@@ -82,9 +78,10 @@ const gamePhases = [
           <div 
             v-for="(rule, index) in gameRules" 
             :key="index"
-            class="rule-card glass-panel card-hover"
+            class="rule-card wood-panel metal-border card-3d"
             :style="{ animationDelay: `${index * 0.1}s` }"
           >
+            <div class="copper-corners"></div>
             <div class="rule-header">
               <span class="rule-icon">{{ rule.icon }}</span>
               <h3>{{ rule.title }}</h3>
@@ -109,9 +106,10 @@ const gamePhases = [
           <div 
             v-for="(phase, index) in gamePhases" 
             :key="index"
-            class="phase-item glass-panel card-hover"
+            class="phase-item wood-panel metal-border card-3d"
             :style="{ animationDelay: `${index * 0.1}s` }"
           >
+            <div class="copper-corners"></div>
             <div class="phase-number">{{ index + 1 }}</div>
             <div class="phase-content">
               <h3 class="phase-title">{{ phase.phase }}</h3>
@@ -132,21 +130,24 @@ const gamePhases = [
           胜利条件
         </h2>
         <div class="victory-conditions">
-          <div class="victory-card good glass-panel card-hover">
+          <div class="victory-card good wood-panel metal-border card-3d">
+            <div class="copper-corners"></div>
             <div class="victory-header">
               <span class="victory-icon">😇</span>
               <h3>好人阵营</h3>
             </div>
             <p>找出并消灭所有坏人，或完成所有任务</p>
           </div>
-          <div class="victory-card evil glass-panel card-hover">
+          <div class="victory-card evil wood-panel metal-border card-3d">
+            <div class="copper-corners"></div>
             <div class="victory-header">
               <span class="victory-icon">😈</span>
               <h3>坏人阵营</h3>
             </div>
             <p>消灭所有好人，或阻止好人完成任务</p>
           </div>
-          <div class="victory-card neutral glass-panel card-hover">
+          <div class="victory-card neutral wood-panel metal-border card-3d">
+            <div class="copper-corners"></div>
             <div class="victory-header">
               <span class="victory-icon">🎭</span>
               <h3>中立阵营</h3>
@@ -169,7 +170,7 @@ const gamePhases = [
 .page-header {
   text-align: center;
   padding: 60px 40px;
-  background: var(--hero-gradient);
+  position: relative;
   border-bottom: 1px solid var(--border-color);
   margin-bottom: 40px;
 }
@@ -183,14 +184,8 @@ const gamePhases = [
 .page-title {
   font-size: 3rem;
   font-weight: 800;
-  color: var(--text-primary);
+  font-family: 'Courier New', monospace;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient 3s ease infinite;
 }
 
 .page-subtitle {
@@ -215,6 +210,7 @@ const gamePhases = [
   border-radius: 24px;
   opacity: 0;
   animation: fadeInUp 0.6s ease-out forwards;
+  position: relative;
 }
 
 .rule-header {
@@ -231,7 +227,7 @@ const gamePhases = [
 .rule-header h3 {
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--amber);
   margin: 0;
 }
 
@@ -248,14 +244,14 @@ const gamePhases = [
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   line-height: 1.6;
 }
 
 .rule-dot {
   width: 6px;
   height: 6px;
-  background: var(--accent-color);
+  background: var(--copper);
   border-radius: 50%;
   margin-top: 8px;
   flex-shrink: 0;
@@ -284,7 +280,7 @@ const gamePhases = [
   top: 60px;
   bottom: -20px;
   width: 2px;
-  background: var(--border-color);
+  background: var(--copper);
   z-index: -1;
 }
 
@@ -295,7 +291,7 @@ const gamePhases = [
 .phase-number {
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+  background: linear-gradient(135deg, var(--copper), var(--wood-medium));
   color: white;
   border-radius: 50%;
   display: flex;
@@ -314,12 +310,12 @@ const gamePhases = [
 .phase-title {
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--amber);
   margin-bottom: 8px;
 }
 
 .phase-description {
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   line-height: 1.6;
   margin-bottom: 12px;
 }
@@ -328,7 +324,7 @@ const gamePhases = [
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--text-tertiary);
+  color: var(--wood-light);
   font-size: 0.9rem;
 }
 
@@ -347,6 +343,7 @@ const gamePhases = [
   border-radius: 24px;
   opacity: 0;
   animation: fadeInUp 0.6s ease-out forwards;
+  position: relative;
 }
 
 .victory-card.good {
@@ -375,12 +372,12 @@ const gamePhases = [
 .victory-header h3 {
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--amber);
   margin: 0;
 }
 
 .victory-card p {
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   line-height: 1.6;
   font-size: 1rem;
 }

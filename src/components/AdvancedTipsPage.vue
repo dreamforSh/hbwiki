@@ -14,11 +14,6 @@ const tips = [
         description: '记录重要事件发生的时间，有助于分析玩家位置和行动',
         level: '中级'
       },
-      {
-        title: '分析投票模式',
-        description: '观察投票时的选择，可以推断玩家之间的关系和阵营',
-        level: '高级'
-      }
     ]
   },
   {
@@ -101,10 +96,16 @@ const getLevelColor = (level) => {
 </script>
 
 <template>
-  <div class="advanced-tips-page">
-    <div class="page-header">
+  <div class="advanced-tips-page wood-texture">
+    <!-- 齿轮背景装饰 -->
+    <div class="gear-background gear-bg-2">⚙️</div>
+    <div class="gear-background gear-bg-3">⚙️</div>
+
+    <div class="page-header wood-panel rivets">
+      <div class="copper-corners"></div>
+
       <div class="page-icon">💡</div>
-      <h1 class="page-title">进阶技巧</h1>
+      <h1 class="page-title text-glow">进阶技巧</h1>
       <p class="page-subtitle">学习高级玩家的实战技巧和策略</p>
     </div>
 
@@ -117,15 +118,17 @@ const getLevelColor = (level) => {
       >
         <h2 class="section-title">
           <span class="title-icon">{{ category.icon }}</span>
-          {{ category.category }}
+          <span class="text-glow">{{ category.category }}
+</span>
         </h2>
         <div class="tips-list">
           <div 
             v-for="(tip, tipIndex) in category.items" 
             :key="tipIndex"
-            class="tip-card glass-panel card-hover"
+            class="tip-card wood-panel metal-border card-3d"
             :style="{ animationDelay: `${(categoryIndex * 0.1) + (tipIndex * 0.05)}s` }"
           >
+            <div class="copper-corners"></div>
             <div class="tip-header">
               <h3 class="tip-title">{{ tip.title }}</h3>
               <span 
@@ -156,9 +159,10 @@ const getLevelColor = (level) => {
       <section class="content-section animate-fade-in-up animate-delay-300">
         <h2 class="section-title">
           <span class="title-icon">🎓</span>
-          综合建议
+          <span class="text-glow">综合建议</span>
         </h2>
-        <div class="advice-grid glass-panel">
+        <div class="advice-grid wood-panel metal-border">
+          <div class="copper-corners"></div>
           <div class="advice-card">
             <div class="advice-icon">🎯</div>
             <h3>保持冷静</h3>
@@ -195,7 +199,7 @@ const getLevelColor = (level) => {
 .page-header {
   text-align: center;
   padding: 60px 40px;
-  background: var(--hero-gradient);
+  position: relative;
   border-bottom: 1px solid var(--border-color);
   margin-bottom: 40px;
 }
@@ -209,14 +213,8 @@ const getLevelColor = (level) => {
 .page-title {
   font-size: 3rem;
   font-weight: 800;
-  color: var(--text-primary);
+  font-family: 'Courier New', monospace;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--text-primary), var(--accent-color));
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient 3s ease infinite;
 }
 
 .page-subtitle {
@@ -257,7 +255,7 @@ const getLevelColor = (level) => {
 .tip-title {
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--amber);
   margin: 0;
   flex: 1;
 }
@@ -273,7 +271,7 @@ const getLevelColor = (level) => {
 }
 
 .tip-description {
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   line-height: 1.6;
   margin-bottom: 16px;
 }
@@ -293,7 +291,7 @@ const getLevelColor = (level) => {
 }
 
 .difficulty-label {
-  color: var(--text-tertiary);
+  color: var(--wood-light);
   font-size: 0.85rem;
 }
 
@@ -312,12 +310,13 @@ const getLevelColor = (level) => {
   gap: 24px;
   padding: 32px;
   border-radius: 24px;
+  position: relative;
 }
 
 .advice-card {
   text-align: center;
   padding: 24px;
-  background: var(--bg-primary);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 16px;
   transition: transform 0.3s;
 }
@@ -334,12 +333,12 @@ const getLevelColor = (level) => {
 .advice-card h3 {
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--amber);
   margin-bottom: 8px;
 }
 
 .advice-card p {
-  color: var(--text-secondary);
+  color: var(--wood-lighter);
   line-height: 1.6;
   font-size: 0.95rem;
 }

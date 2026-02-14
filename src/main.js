@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './assets/steampunk-theme.css'
 
 import { createApp } from 'vue'
 import { inject } from '@vercel/analytics'

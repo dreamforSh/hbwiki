@@ -1,0 +1,539 @@
+/* ================================
+   星穹列车 - 蒸汽朋克主题样式
+   木质中世纪蒸汽风格
+   ================================ */
+
+:root {
+  /* 木质色调 */
+  --wood-dark: #3d2817;
+  --wood-medium: #5c3d2e;
+  --wood-light: #8b6f47;
+  --wood-lighter: #a88b68;
+  
+  /* 金属色调 */
+  --copper: #b87333;
+  --copper-dark: #9a5f2a;
+  --brass: #e5c185;
+  --brass-dark: #d4a574;
+  --bronze: #cd7f32;
+  
+  /* 蒸汽与光效 */
+  --steam-white: #f5f5dc;
+  --steam-gray: #d3cfc9;
+  --gear-gray: #6b6b6b;
+  --gear-dark: #4a4a4a;
+  
+  /* 暖色点缀 */
+  --amber: #ffbf00;
+  --warm-red: #8b4513;
+  --leather: #654321;
+  
+  /* 覆盖主题色 */
+  --accent-color: var(--copper);
+  --accent-hover: var(--copper-dark);
+  --bg-primary: rgba(61, 40, 23, 0.6);
+  --bg-secondary: rgba(92, 61, 46, 0.5);
+  --card-bg: rgba(139, 111, 71, 0.15);
+  --border-color: rgba(229, 193, 133, 0.3);
+}
+
+/* ================================
+   木质纹理背景
+   ================================ */
+.wood-texture {
+  background-image: 
+    linear-gradient(rgba(61, 40, 23, 0.85), rgba(92, 61, 46, 0.85)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(139, 111, 71, 0.1) 0px,
+      rgba(139, 111, 71, 0.05) 2px,
+      rgba(92, 61, 46, 0.1) 4px
+    );
+  background-size: cover;
+}
+
+.wood-panel {
+  background: linear-gradient(135deg, 
+    rgba(92, 61, 46, 0.9) 0%, 
+    rgba(139, 111, 71, 0.85) 100%
+  );
+  border: 2px solid var(--brass);
+  border-radius: 12px;
+  box-shadow: 
+    inset 0 2px 4px rgba(229, 193, 133, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(184, 115, 51, 0.15);
+  position: relative;
+}
+
+.wood-panel::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(229, 193, 133, 0.1);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+/* 铆钉装饰 */
+.rivets {
+  position: relative;
+}
+
+.rivets::before,
+.rivets::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, var(--brass) 30%, var(--brass-dark) 70%);
+  border-radius: 50%;
+  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.rivets::before {
+  top: 12px;
+  left: 12px;
+}
+
+.rivets::after {
+  top: 12px;
+  right: 12px;
+}
+
+/* ================================
+   齿轮装饰
+   ================================ */
+.gear-decoration {
+  position: relative;
+  display: inline-block;
+}
+
+.gear-decoration::before {
+  content: '⚙️';
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0.15;
+  animation: rotate-gear 20s linear infinite;
+}
+
+.gear-decoration.large::before {
+  font-size: 4rem;
+  opacity: 0.1;
+}
+
+.gear-decoration.small::before {
+  font-size: 1.5rem;
+  opacity: 0.2;
+}
+
+@keyframes rotate-gear {
+  from { 
+    transform: rotate(0deg); 
+  }
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+/* 齿轮背景层 */
+.gear-background {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gear-bg-1 {
+  top: 10%;
+  left: 5%;
+  font-size: 8rem;
+  opacity: 0.05;
+  animation: rotate-gear 60s linear infinite;
+}
+
+.gear-bg-2 {
+  bottom: 15%;
+  right: 8%;
+  font-size: 10rem;
+  opacity: 0.04;
+  animation: rotate-gear 80s linear infinite reverse;
+}
+
+.gear-bg-3 {
+  top: 50%;
+  right: 15%;
+  font-size: 6rem;
+  opacity: 0.06;
+  animation: rotate-gear 50s linear infinite;
+}
+
+/* ================================
+   蒸汽效果
+   ================================ */
+.steam-particle {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle, 
+    rgba(245, 245, 220, 0.4) 0%, 
+    rgba(211, 207, 201, 0.2) 50%, 
+    transparent 100%
+  );
+  border-radius: 50%;
+  filter: blur(8px);
+  pointer-events: none;
+  animation: steam-rise 6s ease-out infinite;
+}
+
+.steam-particle:nth-child(2) {
+  animation-delay: 2s;
+  left: 20%;
+}
+
+.steam-particle:nth-child(3) {
+  animation-delay: 4s;
+  left: 40%;
+}
+
+@keyframes steam-rise {
+  0% { 
+    opacity: 0;
+    transform: translateY(0) scale(0.8);
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% { 
+    opacity: 0;
+    transform: translateY(-200px) scale(1.5);
+  }
+}
+
+/* ================================
+   金属边框与装饰
+   ================================ */
+.metal-border {
+  border: 3px solid var(--copper);
+  border-radius: 8px;
+  box-shadow: 
+    inset 0 2px 0 rgba(229, 193, 133, 0.5),
+    inset 0 -2px 0 rgba(61, 40, 23, 0.5),
+    0 0 15px rgba(184, 115, 51, 0.3);
+  position: relative;
+}
+
+.metal-border::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: 1px solid rgba(184, 115, 51, 0.3);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+/* 铜制角落装饰 */
+.copper-corners::before,
+.copper-corners::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--brass);
+}
+
+.copper-corners::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.copper-corners::after {
+  bottom: -2px;
+  right: -2px;
+  border-left: none;
+  border-top: none;
+}
+
+/* ================================
+   3D 卡片效果
+   ================================ */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
+}
+
+.card-3d:hover {
+  transform: 
+    perspective(1000px) 
+    rotateY(5deg) 
+    rotateX(5deg) 
+    scale(1.05)
+    translateZ(20px);
+}
+
+.card-3d-flip {
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+  position: relative;
+}
+
+.card-3d-flip:hover {
+  transform: rotateY(180deg);
+}
+
+.card-3d-flip .card-front,
+.card-3d-flip .card-back {
+  backface-visibility: hidden;
+  position: absolute;
+  inset: 0;
+}
+
+.card-3d-flip .card-back {
+  transform: rotateY(180deg);
+}
+
+/* ================================
+   视差滚动效果
+   ================================ */
+.parallax-layer {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.parallax-slow {
+  transform: translateY(calc(var(--scroll-y, 0) * 0.3px));
+}
+
+.parallax-medium {
+  transform: translateY(calc(var(--scroll-y, 0) * 0.5px));
+}
+
+.parallax-fast {
+  transform: translateY(calc(var(--scroll-y, 0) * 0.8px));
+}
+
+/* ================================
+   机械风格按钮
+   ================================ */
+.btn-steampunk {
+  background: linear-gradient(135deg, var(--copper) 0%, var(--copper-dark) 100%);
+  border: 2px solid var(--brass);
+  color: var(--steam-white);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 
+    inset 0 2px 0 rgba(229, 193, 133, 0.3),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-steampunk::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-steampunk:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-steampunk:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 0 2px 0 rgba(229, 193, 133, 0.5),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+    0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.btn-steampunk:active {
+  transform: translateY(1px);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ================================
+   发光效果
+   ================================ */
+.glow-amber {
+  box-shadow: 
+    0 0 10px rgba(255, 191, 0, 0.4),
+    0 0 20px rgba(255, 191, 0, 0.2),
+    0 0 30px rgba(255, 191, 0, 0.1);
+}
+
+.glow-copper {
+  box-shadow: 
+    0 0 10px rgba(184, 115, 51, 0.4),
+    0 0 20px rgba(184, 115, 51, 0.2);
+}
+
+.text-glow {
+  text-shadow: 
+    0 0 10px rgba(255, 191, 0, 0.6),
+    0 0 20px rgba(255, 191, 0, 0.4),
+    0 0 30px rgba(255, 191, 0, 0.2);
+}
+
+/* ================================
+   滚动触发动画
+   ================================ */
+.scroll-fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-slide-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-slide-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-slide-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-slide-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-zoom-in {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.scroll-zoom-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ================================
+   机械仪表盘风格
+   ================================ */
+.gauge-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border: 4px solid var(--brass);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--wood-medium) 0%, var(--wood-dark) 100%);
+  box-shadow: 
+    inset 0 0 20px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.gauge-needle {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 3px;
+  height: 50%;
+  background: linear-gradient(to top, var(--copper), var(--amber));
+  transform-origin: bottom center;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(255, 191, 0, 0.6);
+  animation: gauge-swing 4s ease-in-out infinite;
+}
+
+@keyframes gauge-swing {
+  0%, 100% { transform: translateX(-50%) rotate(-45deg); }
+  50% { transform: translateX(-50%) rotate(45deg); }
+}
+
+/* ================================
+   蒸汽管道装饰
+   ================================ */
+.pipe-decoration {
+  position: relative;
+  padding-left: 40px;
+}
+
+.pipe-decoration::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(90deg, 
+    var(--gear-dark) 0%, 
+    var(--gear-gray) 50%, 
+    var(--gear-dark) 100%
+  );
+  border-radius: 10px;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    2px 0 4px rgba(0, 0, 0, 0.3);
+}
+
+/* 管道连接件 */
+.pipe-joint {
+  width: 30px;
+  height: 30px;
+  background: var(--gear-gray);
+  border: 2px solid var(--brass);
+  border-radius: 50%;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.pipe-joint::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(229, 193, 133, 0.5);
+  border-radius: 50%;
+}
+
+/* ================================
+   响应式调整
+   ================================ */
+@media (max-width: 768px) {
+  .gear-bg-1,
+  .gear-bg-2,
+  .gear-bg-3 {
+    display: none;
+  }
+  
+  .card-3d:hover {
+    transform: scale(1.02);
+  }
+  
+  .steam-particle {
+    display: none;
+  }
+}
